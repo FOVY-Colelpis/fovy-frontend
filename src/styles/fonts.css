@@ -1,0 +1,19 @@
+@font-face {
+    font-family: 'Alata';
+    src: url('/public/fonts/Alata-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'BodyGrotesqueFit';
+    src: url('/public/fonts/body-grotesque.fit-trial-bold.ttf') format('truetype');
+    font-weight: bold;
+  }
+  
+  @font-face {
+    font-family: 'BodyGrotesqueLarge';
+    src: url('/public/fonts/body-grotesque.large-trial-bold.ttf') format('truetype');
+    font-weight: bold;
+  }
+  
