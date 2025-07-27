@@ -6,26 +6,60 @@ import icon from '../../public/images/icon.png';
 
 export default function HeroSection() {
   return (
-    <section className="bg-gradient-to-b from-[#eef0ff] to-black text-center py-28 px-4 text-white">
-      <div className="max-w-2xl mx-auto">
-        <Image src={logo} alt="FOVY Logo" width={180} height={80} className="mx-auto mb-8" />
-        <Image src={icon} alt="FOVY icon" width={300} height={180} className="mx-auto mb-8" />
-        <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-4 font-alata">
-          <span className="text-[#3e5ef4]">Map</span> Potential,<br />
-          <span className="text-[#3e5ef4]">Match</span> Future.
-        </h1>
-        <p className="text-lg mb-8 text-gray-200">
-          A smarter way to grow, match, and thrive in freelance careers.
-        </p>
-        <h2 className="text-3xl sm:text-4xl font-bold mb-16 font-grotesque">
-          Ready to get started?
-        </h2>
-        <a
-          href="#"
-          className="inline-block bg-[#3e5ef4] hover:bg-[#2d45c7] text-white font-bold px-6 py-3 rounded-full transition"
-        >
-          Try it for FREE
-        </a>
+    <section className="bg-gradient-to-b from-white to-[#eef0ff] min-h-screen relative overflow-hidden">
+      <div className="max-w-full px-[14.28%] lg:px-[14.28%] pt-[96px] lg:pt-[112px] pb-[32px] lg:pb-[48px] relative">
+        {/* Logo positioned at top-left with spacing */}
+        <div className="mb-[64px] lg:mb-[80px]">
+          <Image 
+            src={logo} 
+            alt="FOVY Logo" 
+            width={140} 
+            height={64} 
+            className="lg:w-[96px] lg:h-auto"
+          />
+        </div>
+
+        {/* Main content - text only */}
+        <div className="flex flex-col items-start justify-start min-h-[60vh] lg:min-h-[70vh]">
+          {/* Left side - Text content aligned with logo */}
+          <div className="text-left w-full lg:w-1/2 lg:pr-[32px]">
+            {/* Main headline */}
+            <h1 className="text-[72px] sm:text-[96px] lg:text-[120px] xl:text-[144px] font-bold leading-tight mb-[48px] tracking-tight">
+              <span className="text-[#3e5ef4]">Map</span>{' '}
+              <span className="text-black">Potential,</span>
+              <br />
+              <span className="text-[#3e5ef4]">Match</span>{' '}
+              <span className="text-black">Future.</span>
+            </h1>
+
+            {/* Description */}
+            <p className="text-[32px] sm:text-[36px] lg:text-[40px] text-gray-700 max-w-[1024px]">
+              A smarter way to grow, match, and thrive in freelance careers.
+            </p>
+          </div>
+        </div>
+
+        {/* Floating Icon positioned absolutely - height matches text */}
+        <div className="absolute top-[70%] right-[15%] transform -translate-y-1/2 block z-50" style={{position: 'absolute', top: '70%', right: '15%', transform: 'translateY(-50%)', zIndex: 50}}>
+          <Image 
+            src={icon} 
+            alt="FOVY icon" 
+            width={194} 
+            height={250} 
+            className="w-auto h-[250px] object-contain drop-shadow-2xl"
+            priority
+          />
+        </div>
+
+        {/* Bottom CTA - horizontally centered, 1% from bottom */}
+        <div className="absolute bottom-[-10%] left-1/2 transform -translate-x-1/2 text-center z-40" style={{position: 'absolute', width: '100vw', bottom: '-10%', left: '50%', zIndex: 40}}>
+          <p className="text-[50px] lg:text-[58px] font-bold text-gray-900 mb-[32px]">
+            Ready to get started?
+          </p>
+          <span className="text-[#3e5ef4] text-[30px] lg:text-[40px] font-semibold">
+            Try it for FREE
+          </span>
+        </div>
       </div>
     </section>
   );
