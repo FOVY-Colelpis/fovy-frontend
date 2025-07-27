@@ -43,25 +43,53 @@ const sdgs = [
 
 export default function SDGSection() {
   return (
-    <section className="bg-[#f3f3f3] text-black py-20 px-6">
-      <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-          Designing a More Inclusive Future of Work
-        </h2>
-        <p className="text-lg mb-12">
-          Empowering non-traditional talent through inclusive, skill-based career systems.
-        </p>
+    <section className="bg-[#E2E2EB] text-black py-20 px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-[54px] font-bold mb-4" style={{margin: 0}}>
+            Designing a More Inclusive Future of Work
+          </h2>
+          <p className="text-[32px]" style={{padding: '80px', margin: 0}}>
+            Empowering non-traditional talent through inclusive, skill-based career systems.
+          </p>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <div className="space-y-6">
           {sdgs.map((sdg, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl shadow-md px-6 py-6 flex flex-col items-center text-left text-sm"
+              className={`flex items-center justify-between p-8 rounded-xl text-[white] ${
+                index === 0 ? 'bg-[#C51A2D]' :
+                index === 1 ? 'bg-[#A21842]' :
+                index === 2 ? 'bg-[#FD6825]' :
+                'bg-[#DD1466]'
+              }`}
             >
-              <div className="relative w-12 h-12 mb-4">
-                <Image src={sdg.image} alt={sdg.title} width={250} height={250} className="object-contain" />
+                            <div className="flex items-center space-x-[30px] px-[200px]">
+                {index === 1 || index === 3 ? (
+                  <>
+                    <div className="text-[32px] leading-relaxed max-w-2xl">
+                      {sdg.description}
+                    </div>
+                    <div className="text-center">
+                      <div className="mt-4">
+                        <Image src={sdg.image} alt={sdg.title} width={265} height={265} className="object-contain" />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="text-center">
+                      <div className="mt-4">
+                        <Image src={sdg.image} alt={sdg.title} width={265} height={265} className="object-contain" />
+                      </div>
+                    </div>
+                    <div className="text-[32px] leading-relaxed max-w-2xl">
+                      {sdg.description}
+                    </div>
+                  </>
+                )}
               </div>
-              <p className="text-gray-800 leading-relaxed">{sdg.description}</p>
             </div>
           ))}
         </div>
