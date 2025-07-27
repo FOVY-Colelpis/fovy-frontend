@@ -4,33 +4,49 @@ import Image from 'next/image';
 
 export default function JoinUsSection() {
     return (
-      <section className="bg-[#2f2f2f] text-white text-center py-20 px-6">
-        <h2 className="text-3xl sm:text-4xl font-bold text-blue-300 mb-4">JOIN US</h2>
-        <p className="text-lg sm:text-xl font-medium max-w-2xl mx-auto">
-          We’re building the future of freelance careers <br />
-          and we’re looking for someone who’s excited to build it with us.
-        </p>
-  
-        <div className="mt-12">
-          <div className="w-10 h-10 relative mx-auto animate-bounce">
-            <Image
-              src="/images/icon.png" // replace with actual arrow image if any
-              alt="arrow"
-              width={100}
-              height={100}
-              className="object-contain"
-            />
+      <section className="bg-[#343436] text-[white] py-20 px-6">
+        <div className="max-w-7xl mx-auto h-full relative px-[14.28%]">
+          {/* Top Content */}
+          <div className="text-center mb-12" style={{margin: 0, paddingTop: '50px'}}>
+            <div className="flex items-center justify-center gap-4">
+                              <span className="text-[54px] font-bold text-[#5DE1E6] pb-[15px]">JOIN US&nbsp;</span>
+              <span className="text-[32px] font-medium">
+                We're building the future of freelance careers
+              </span>
+            </div>
+            <p className="text-[32px] font-medium text-center">
+              and we're looking for someone who's excited to build it with us.
+            </p>
           </div>
-        </div>
-        {/* Right Image */}
-        <div className="flex justify-center md:justify-end">
-          <div className="relative w-full max-w-sm">
+
+          {/* Arrow */}
+          <div className="flex justify-center my-[100px]">
+            <div className="w-[200px] h-[200px] relative">
+              <Image
+                src="/images/arrow.png"
+                alt="arrow"
+                width={200}
+                height={200}
+                className="object-contain"
+              />
+            </div>
+          </div>
+
+          {/* Form Area - 70% width, centered */}
+          <div className="flex justify-center pb-[100px]">
+            <div className="w-[70%] h-[80vh] bg-[white] rounded-lg mb-8 flex items-center justify-center">
+              {/* Form content will go here */}
+            </div>
+          </div>
+
+          {/* Connect Image - Bottom Right */}
+          <div className="absolute bottom-[100px] right-[0] w-[300px] h-[300px]" style={{margin: 0, padding: 0}}>
             <Image
               src="/images/conect.png"
               alt="Connect with us"
-              width={816}
-              height={880}
-              className="w-full h-auto object-contain"
+              width={300}
+              height={300}
+              className="w-full h-full object-contain"
             />
           </div>
         </div>
