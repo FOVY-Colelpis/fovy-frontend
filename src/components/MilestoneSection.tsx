@@ -22,31 +22,31 @@ const milestones = [
 
 export default function MilestoneSection() {
   return (
-    <section className="bg-gradient-to-b from-[#2f2f2f] to-[#eaeaea] text-black py-24 px-6">
+    <section className="bg-gradient-to-b h-screen from-[#343436] to-[#E2E2EB] text-black py-24 px-6">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-4xl sm:text-5xl font-bold mb-16">Our Milestones</h2>
+        <h2 className="text-[54px] font-bold text-[white] mb-16" style={{margin: 0, paddingBottom: '100px'}}>Our Milestones</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="flex justify-center gap-[25px]">
           {milestones.map((milestone, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-3xl shadow-lg p-6 flex flex-col items-center"
+              className="bg-[white] rounded-[30px] shadow-lg p-6 flex flex-col items-center w-[400px]"
             >
-              <h3 className="text-xl font-bold whitespace-pre-line text-center mb-4">
+              <h3 className="text-[30px] font-bold whitespace-pre-line text-center mb-4">
                 {milestone.title}
               </h3>
 
-              <div className="relative w-full h-40 sm:h-48 md:h-52 mb-4 overflow-hidden rounded-xl">
+              <div className="relative w-full h-48 mb-4 overflow-hidden rounded-xl">
                 <Image
                   src={milestone.image}
                   alt={milestone.title}
                   width={260}
                   height={180}
-                  className="object-cover"
+                  className="object-cover w-full h-full"
                 />
               </div>
 
-              <p className="text-sm sm:text-base leading-relaxed text-center">
+              <p className="text-[20px] mx-[30px] leading-relaxed text-center">
                 {milestone.description}
               </p>
             </div>
