@@ -56,52 +56,63 @@ const awards = [
 
 export default function TeamSection() {
   return (
-    <section className="bg-[#2f2f2f] text-white py-20 px-6">
+    <section className="bg-[#343436] text-[white] py-20 px-6 h-[calc(100vh-100px)]">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">Best Team</h2>
+        <h2 className="text-[54px] font-bold text-center mb-16" style={{margin: 0, paddingBottom: '100px', paddingTop: '50px'}}>Best Team</h2>
 
-        {/* Team Members */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 justify-items-center mb-12">
-          {teamMembers.map((member, index) => (
-            <div key={index} className="text-center">
-              <div className="w-24 h-24 relative mx-auto mb-4">
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  width={96}
-                  height={96}
-                  className="rounded-xl object-cover"
-                />
-              </div>
-              <p className="font-bold text-base">{member.name}</p>
-              <p className="text-sm text-gray-300">{member.title}</p>
-              <p className="text-sm text-gray-400">{member.role}</p>
+        {/* Team Members and Awards - Left Side */}
+        <div className="flex justify-between items-start">
+          <div className="flex-1 px-[14.28%] pr-[100px]">
+            {/* Team Members */}
+            <div className="flex gap-[30px]">
+              {teamMembers.map((member, index) => (
+                <div key={index} className="text-left">
+                  <div className="w-[150px] h-[120px] relative">
+                    <div className="w-full h-full rounded-[15px] bg-gradient-to-br from-[#A182A0] to-[#8BA3EF] p-2">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        width={300}
+                        height={250}
+                        className={`rounded-2xl object-cover w-full h-full ${index === 1 ? 'transform translate-x-[10px]' : ''}`}
+                      />
+                    </div>
+                  </div>
+                  <p className="font-bold text-[30px] underline">{member.name}</p>
+                  <p className="text-[20px]">{member.title}</p>
+                  <p className="text-[20px]">{member.role}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        {/* Awards */}
-        <div className="flex flex-wrap justify-center items-center gap-4 mb-12">
-          {awards.map((award, i) => (
-            <div key={i} className="flex flex-col items-center text-center max-w-[200px]">
-            <div className="relative w-20 h-20 mb-3">
-                <Image src={award.image} alt={`award-${i}`} width={80} height={80} className="object-contain" />
+            {/* Awards */}
+            <div className="flex gap-[30px] justify-start" style={{width: '100%', marginTop: '50px'}}>
+              {awards.map((award, i) => (
+                <div key={i} className="text-center flex-1">
+                  <div className="relative w-[150px] h-[80px] mb-4 mx-auto">
+                    <div className="w-full h-full rounded-full p-4">
+                      <Image src={award.image} alt={`award-${i}`} width={300} height={250} className="object-contain w-full h-full" />
+                    </div>
+                  </div>
+                  <p className="text-[12px] text-[white] max-w-[300px] leading-relaxed">{award.label}</p>
+                </div>
+              ))}
             </div>
-            <p className="text-sm text-gray-300">{award.label}</p>
-            </div>
-        ))}
-        </div>
+          </div>
 
-        {/* Right Side Icons */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-10">
-          {icons.map((item, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div className="w-6 h-6 relative">
-                <Image src="/images/icon.png" alt="icon" width={150} height={150} className="object-contain" />
-              </div>
-              <p className="text-sm">{item.text}</p>
+          {/* Right Side Icons */}
+          <div className="px-[25%] pr-[14.28%] pl-[0px]">
+            <div className="flex flex-col">
+              {icons.map((item, i) => (
+                <div key={i} className="flex flex-col items-center text-center">
+                  <div className="w-[100px] h-[100px] mb-2">
+                    <Image src="/images/icon.png" alt="icon" width={80} height={80} className="object-contain" />
+                  </div>
+                  <p className="text-[22px] text-[white] text-center max-w-[180px] leading-relaxed" style={{margin: 0, paddingBottom: '20px'}}>{item.text}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
