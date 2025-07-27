@@ -6,7 +6,7 @@ import icon from '../../public/images/icon.png';
 
 export default function HeroSection() {
   return (
-    <section className="bg-gradient-to-b from-white to-[#eef0ff] min-h-screen relative overflow-hidden">
+    <section className="bg-gradient-to-b from-[#e2e2eb] to-[#DFDDE6] min-h-screen relative overflow-hidden">
       <div className="max-w-full px-[14.28%] lg:px-[14.28%] pt-[96px] lg:pt-[112px] pb-[32px] lg:pb-[48px] relative">
         {/* Logo positioned at top-left with spacing */}
         <div className="mb-[64px] lg:mb-[80px]">

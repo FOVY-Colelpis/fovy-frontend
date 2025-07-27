@@ -6,52 +6,42 @@ import hiringImg from '../../public/images/hiring.png';
 
 export default function CTASection() {
   return (
-    <section className="py-24 bg-white text-center">
+    <section className="h-[calc(100vh-200px)] bg-gradient-to-b from-[#DFDDE6] to-[#505052] text-center flex items-center justify-center">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 gap-[200px]">
           {/* Freelancer */}
-          <a
-            href="#"
-            className="group flex items-center border border-[#3e5ef4] rounded-3xl p-6 text-left hover:bg-[#eef0ff] transition"
-          >
+          <div className="flex flex-col items-center">
             <Image
               src={freelancerImg}
               alt="freelancer"
-              width={80}
-              height={80}
-              className="mr-6"
+              width={300}
+              height={300}
+              className="my-[30px] w-auto h-[300px] lg:h-[400px] object-contain"
             />
-            <div>
-              <h3 className="text-lg font-bold text-[#3e5ef4] font-alata mb-1 group-hover:underline">
-                I’m a freelancer
-              </h3>
-              <p className="text-[#3e5ef4] text-sm font-body">
-                looking to grow and get hired.
-              </p>
-            </div>
-          </a>
+            <button className="bg-gradient-to-r from-[#CBFCFB] to-[#B5D2FF] rounded-full py-[10px] my-[50px] text-black font-bold text-[40px] w-[450px]" style={{border: 'none', outline: 'none'}}>
+              I'm a freelancer
+            </button>
+            <p className="text-[white] text-[40px] mt-[0px] mb-[60px]">
+              looking to grow and get hired.
+            </p>
+          </div>
 
           {/* Hiring */}
-          <a
-            href="#"
-            className="group flex items-center border border-[#3e5ef4] rounded-3xl p-6 text-left hover:bg-[#eef0ff] transition"
-          >
+          <div className="flex flex-col items-center">
             <Image
               src={hiringImg}
               alt="hiring"
-              width={80}
-              height={80}
-              className="mr-6"
+              width={300}
+              height={300}
+              className="my-[30px] w-auto h-[300px] lg:h-[400px] object-contain"
             />
-            <div>
-              <h3 className="text-lg font-bold text-[#3e5ef4] font-alata mb-1 group-hover:underline">
-                I’m hiring
-              </h3>
-              <p className="text-[#3e5ef4] text-sm font-body">
-                looking for great talent.
-              </p>
-            </div>
-          </a>
+            <button className="bg-gradient-to-r from-[#F4EDFE] to-[#C5CBFF] rounded-full py-[10px] my-[50px] text-black font-bold text-[40px] w-[450px]" style={{border: 'none', outline: 'none'}}>
+              I'm hiring
+            </button>
+            <p className="text-[white] text-[40px] mt-[0px] mb-[60px]">
+              looking for great talent.
+            </p>
+          </div>
         </div>
       </div>
     </section>
