@@ -6,7 +6,7 @@ import icon from '../../public/images/icon.png';
 
 export default function HeroSection() {
   return (
-    <section className="bg-gradient-to-b from-[#e2e2eb] to-[#DFDDE6] min-h-screen relative overflow-hidden">
+    <section className="bg-gradient-to-b from-[#e2e2eb] to-[#DFDDE6] relative overflow-hidden py-20">
       <div className="max-w-full px-[14.28%] lg:px-[14.28%] pt-[96px] lg:pt-[112px] pb-[32px] lg:pb-[48px] relative">
         {/* Logo positioned at top-left with spacing */}
         <div className="mb-[64px] lg:mb-[80px]">
@@ -20,7 +20,7 @@ export default function HeroSection() {
         </div>
 
         {/* Main content - text only */}
-        <div className="flex flex-col items-start justify-start min-h-[60vh] lg:min-h-[70vh]">
+        <div className="flex flex-col items-start justify-start">
           {/* Left side - Text content aligned with logo */}
           <div className="text-left w-full lg:w-1/2 lg:pr-[32px]">
             {/* Main headline */}
@@ -40,7 +40,7 @@ export default function HeroSection() {
         </div>
 
         {/* Floating Icon positioned absolutely - height matches text */}
-        <div className="absolute top-[70%] right-[15%] transform -translate-y-1/2 block z-50" style={{position: 'absolute', top: '70%', right: '15%', transform: 'translateY(-50%)', zIndex: 50}}>
+        <div className="absolute top-[30%] right-[15%] transform -translate-y-[1/2] block z-50">
           <Image 
             src={icon} 
             alt="FOVY icon" 
@@ -52,7 +52,7 @@ export default function HeroSection() {
         </div>
 
         {/* Bottom CTA - horizontally centered, 1% from bottom */}
-        <div className="absolute bottom-[-10%] left-1/2 transform -translate-x-1/2 text-center z-40" style={{position: 'absolute', width: '100vw', bottom: '-10%', left: '50%', zIndex: 40}}>
+        <div className="text-center z-40 mt-[100px]">
           <p className="text-[50px] lg:text-[58px] font-bold text-gray-900 mb-[32px]">
             Ready to get started?
           </p>

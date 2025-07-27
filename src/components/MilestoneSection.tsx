@@ -22,11 +22,11 @@ const milestones = [
 
 export default function MilestoneSection() {
   return (
-    <section className="bg-gradient-to-b h-screen from-[#343436] to-[#E2E2EB] text-black py-24 px-6">
+    <section className="bg-gradient-to-b from-[#3D3D3E] to-[#E2E2EB] text-black py-24 px-6">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-[54px] font-bold text-[white] mb-16" style={{margin: 0, paddingBottom: '100px'}}>Our Milestones</h2>
+        <h2 className="text-[54px] font-bold text-[white] pt-[100px]" style={{margin: 0, paddingBottom: '100px'}}>Our Milestones</h2>
 
-        <div className="flex justify-center gap-[25px]">
+        <div className="flex justify-center gap-[25px] pb-[100px]">
           {milestones.map((milestone, idx) => (
             <div
               key={idx}

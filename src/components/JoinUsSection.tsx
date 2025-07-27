@@ -9,12 +9,12 @@ export default function JoinUsSection() {
           {/* Top Content */}
           <div className="text-center mb-12" style={{margin: 0, paddingTop: '50px'}}>
             <div className="flex items-center justify-center gap-4">
-                              <span className="text-[54px] font-bold text-[#5DE1E6] pb-[15px]">JOIN US&nbsp;</span>
-              <span className="text-[32px] font-medium">
+                              <span className="text-[78px] font-bold text-[#5DE1E6] pb-[15px]">JOIN US&nbsp;</span>
+              <span className="text-[40px] font-medium">
                 We're building the future of freelance careers
               </span>
             </div>
-            <p className="text-[32px] font-medium text-center">
+            <p className="text-[40px] font-medium text-center">
               and we're looking for someone who's excited to build it with us.
             </p>
           </div>

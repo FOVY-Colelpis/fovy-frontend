@@ -10,7 +10,7 @@ import JoinUsSection from '../components/JoinUsSection';
 
 export default function HomePage() {
   return (
-    <main className="overflow-x-hidden">
+    <main className="overflow-x-hidden w-full">
       <HeroSection />
       <CTASection />
       <PuzzleSection />

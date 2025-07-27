@@ -19,4 +19,58 @@
 
 body {
   font-family: 'Alata', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Force desktop layout on mobile */
+@media (max-width: 1200px) {
+  .lg\:w-1\/2 {
+    width: 50% !important;
+  }
+  
+  .lg\:px-\[14\.28\%\] {
+    padding-left: 14.28% !important;
+    padding-right: 14.28% !important;
+  }
+  
+  .lg\:pt-\[112px\] {
+    padding-top: 112px !important;
+  }
+  
+  .lg\:pb-\[48px\] {
+    padding-bottom: 48px !important;
+  }
+  
+  .lg\:mb-\[80px\] {
+    margin-bottom: 80px !important;
+  }
+  
+  .lg\:w-\[96px\] {
+    width: 96px !important;
+  }
+  
+  .lg\:h-auto {
+    height: auto !important;
+  }
+  
+  .lg\:text-\[120px\] {
+    font-size: 120px !important;
+  }
+  
+  .lg\:text-\[40px\] {
+    font-size: 40px !important;
+  }
+  
+  .lg\:text-\[58px\] {
+    font-size: 58px !important;
+  }
+  
+  .lg\:h-\[400px\] {
+    height: 400px !important;
+  }
 }

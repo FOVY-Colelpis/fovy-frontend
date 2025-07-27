@@ -17,7 +17,7 @@ export default function VisionSection() {
           for everyone outside the traditional system.
         </p>
 
-        <p className="text-[32px] leading-relaxed" style={{paddingBottom: '100px', margin: 0}}>
+        <p className="text-[32px] leading-relaxed pb-[100px]" style={{margin: 0}}>
           We are building a future where growth is visible,<br />
           trust is earned, and opportunity is shared.
         </p>

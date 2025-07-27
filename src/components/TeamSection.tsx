@@ -56,7 +56,7 @@ const awards = [
 
 export default function TeamSection() {
   return (
-    <section className="bg-[#343436] text-[white] py-20 px-6 h-[calc(100vh-100px)]">
+    <section className="bg-[#343436] text-[white] py-20 px-6">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-[54px] font-bold text-center mb-16" style={{margin: 0, paddingBottom: '100px', paddingTop: '50px'}}>Best Team</h2>
 
@@ -102,7 +102,7 @@ export default function TeamSection() {
 
           {/* Right Side Icons */}
           <div className="px-[25%] pr-[14.28%] pl-[0px]">
-            <div className="flex flex-col">
+            <div className="flex flex-col pb-[50px]">
               {icons.map((item, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
                   <div className="w-[100px] h-[100px] mb-2">

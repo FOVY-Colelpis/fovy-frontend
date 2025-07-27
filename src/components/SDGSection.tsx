@@ -45,11 +45,11 @@ export default function SDGSection() {
   return (
     <section className="bg-[#E2E2EB] text-black py-20 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-[54px] font-bold mb-4" style={{margin: 0}}>
+        <div className="text-center">
+          <h2 className="text-[54px] font-bold pt-[100px]" style={{margin: 0}}>
             Designing a More Inclusive Future of Work
           </h2>
-          <p className="text-[32px]" style={{padding: '80px', margin: 0}}>
+          <p className="text-[32px] pt-[80px] pb-[120px]" style={{margin: 0}}>
             Empowering non-traditional talent through inclusive, skill-based career systems.
           </p>
         </div>

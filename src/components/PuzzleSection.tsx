@@ -21,9 +21,9 @@ const goals = [
 
 export default function PuzzleSection() {
   return (
-          <section className="bg-[#343436] h-screen flex items-center justify-center">
+          <section className="bg-[#343436] flex items-center justify-center py-20">
         <div className="max-w-7xl mx-auto text-center" style={{transform: 'translateY(-50px)'}}>
-        <h2 className="text-[58px] text-[white] leading-tight text-center px-[350px] m-0 font-normal" style={{margin: 0, marginTop: '50px', paddingBottom: '120px'}}>
+        <h2 className="text-[58px] text-[white] leading-tight text-center px-[350px] m-0 font-normal pb-[120px] pt-[100px]" style={{margin: 0}}>
           For Startups, NGOs, and Teams that care about potential.
         </h2>
 
