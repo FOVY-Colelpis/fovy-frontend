@@ -60,7 +60,7 @@ export default function HeroSection() {
             href="https://www.surveycake.com/s/VG6XM" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-[3] bg-[#004AAD] text-[white] px-[15] py-[6] rounded-full text-[30px] lg:text-[40px] font-semibold hover:bg-[#2d4bd8] transition-colors duration-300 shadow-lg"
+            className="inline-flex items-center gap-[3] bg-[#004AAD] text-[white] px-[15] py-[6] rounded-full text-[30px] lg:text-[40px] font-semibold hover:bg-[#2d4bd8] hover:opacity-80 hover:scale-105 transition-colors duration-300 shadow-lg"
           >
             Try it for FREE
             <svg 

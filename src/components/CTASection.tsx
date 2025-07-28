@@ -21,7 +21,11 @@ export default function CTASection() {
               height={300}
               className="my-[30px] w-auto h-[300px] lg:h-[400px] object-contain"
             />
-            <button className="bg-gradient-to-r from-[#CBFCFB] to-[#B5D2FF] rounded-full py-[10px] my-[50px] text-black font-bold text-[40px] w-[450px] cursor-pointer" style={{border: 'none', outline: 'none'}}>
+            <button 
+              onClick={() => router.push('/freelancer')}
+              className="bg-gradient-to-r from-[#CBFCFB] to-[#B5D2FF] rounded-full py-[10px] my-[50px] text-black font-bold text-[40px] w-[450px] hover:opacity-80 hover:scale-105 transition-all duration-300 cursor-pointer" 
+              style={{border: 'none', outline: 'none'}}
+            >
               I'm a freelancer
             </button>
             <p className="text-[white] text-[40px] mt-[0px] mb-[60px]">
@@ -40,7 +44,7 @@ export default function CTASection() {
             />
             <button 
               onClick={() => router.push('/hiring')}
-              className="bg-gradient-to-r from-[#F4EDFE] to-[#C5CBFF] rounded-full py-[10px] my-[50px] text-black font-bold text-[40px] w-[450px] hover:opacity-90 transition-opacity duration-300 cursor-pointer" 
+              className="bg-gradient-to-r from-[#F4EDFE] to-[#C5CBFF] rounded-full py-[10px] my-[50px] text-black font-bold text-[40px] w-[450px] hover:opacity-80 hover:scale-105 transition-all duration-300 cursor-pointer" 
               style={{border: 'none', outline: 'none'}}
             >
               I'm hiring
