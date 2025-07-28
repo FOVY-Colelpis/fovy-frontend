@@ -25,10 +25,10 @@ export default function HeroSection() {
           <div className="text-left w-full lg:w-1/2 lg:pr-[32px]">
             {/* Main headline */}
             <h1 className="text-[72px] sm:text-[96px] lg:text-[120px] xl:text-[144px] font-bold leading-tight mb-[48px] tracking-tight">
-              <span className="text-[#3e5ef4]">Map</span>{' '}
+              <span className="text-[#004AAD]">Map</span>{' '}
               <span className="text-black">Potential,</span>
               <br />
-              <span className="text-[#3e5ef4]">Match</span>{' '}
+              <span className="text-[#004AAD]">Match</span>{' '}
               <span className="text-black">Future.</span>
             </h1>
 
@@ -56,9 +56,30 @@ export default function HeroSection() {
           <p className="text-[50px] lg:text-[58px] font-bold text-gray-900 mb-[32px]">
             Ready to get started?
           </p>
-          <span className="text-[#3e5ef4] text-[30px] lg:text-[40px] font-semibold">
+          <a 
+            href="https://www.surveycake.com/s/VG6XM" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-[3] bg-[#004AAD] text-[white] px-[15] py-[6] rounded-full text-[30px] lg:text-[40px] font-semibold hover:bg-[#2d4bd8] transition-colors duration-300 shadow-lg"
+          >
             Try it for FREE
-          </span>
+            <svg 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-6 h-6"
+            >
+              <path 
+                d="M7 17L17 7M17 7H7M17 7V17" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
         </div>
       </div>
     </section>
