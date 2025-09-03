@@ -1,13 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import LoginModal from './LoginModal';
+import SignupModal from './SignupModal';
 
 export default function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+
+  // 監聽瀏覽器返回按鈕，關閉模態框
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isLoginModalOpen) {
+        setIsLoginModalOpen(false);
+      }
+      if (isSignupModalOpen) {
+        setIsSignupModalOpen(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isLoginModalOpen, isSignupModalOpen]);
+
+  // 當模態框開啟時，添加歷史記錄
+  useEffect(() => {
+    if (isLoginModalOpen || isSignupModalOpen) {
+      window.history.pushState({ modal: true }, '');
+    }
+  }, [isLoginModalOpen, isSignupModalOpen]);
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -25,11 +49,19 @@ export default function Navigation() {
           {navItems.map((item) => (
             <button
               key={item.path}
-              onClick={() => router.push(item.path)}
-              className={`text-[#808080] text-[24px] font-normal transition-all duration-300 cursor-pointer hover:text-white hover:scale-105 hover:text-[#FFFFFF] bg-transparent border-none outline-none ${
+              onClick={() => {
+                if (!isLoginModalOpen && !isSignupModalOpen) {
+                  router.push(item.path);
+                }
+              }}
+              className={`text-[#808080] text-[24px] font-normal transition-all duration-300 bg-transparent border-none outline-none ${
                 pathname === item.path 
                   ? 'text-[white] scale-105' 
                   : ''
+              } ${
+                isLoginModalOpen || isSignupModalOpen
+                  ? 'cursor-not-allowed opacity-50'
+                  : 'cursor-pointer hover:text-white hover:scale-105 hover:text-[#FFFFFF]'
               }`}
             >
               {item.name}
@@ -40,12 +72,31 @@ export default function Navigation() {
         {/* Auth buttons on the right */}
         <div className="flex items-center space-x-[16px]">
           <button 
-            onClick={() => setIsLoginModalOpen(true)}
-            className="text-[white] text-[24px] font-normal transition-all duration-300 cursor-pointer hover:scale-105 bg-transparent border-none outline-none"
+            onClick={() => {
+              if (!isLoginModalOpen && !isSignupModalOpen) {
+                setIsLoginModalOpen(true);
+              }
+            }}
+            className={`text-[white] text-[24px] font-normal transition-all duration-300 bg-transparent border-none outline-none ${
+              isLoginModalOpen || isSignupModalOpen
+                ? 'cursor-not-allowed opacity-50'
+                : 'cursor-pointer hover:scale-105'
+            }`}
           >
             Log in
           </button>
-          <button className="text-[white] text-[24px] font-normal transition-all duration-300 cursor-pointer hover:scale-105 bg-[#D2691E] px-[20px] py-[8px] rounded-full border-none outline-none">
+          <button 
+            onClick={() => {
+              if (!isLoginModalOpen && !isSignupModalOpen) {
+                setIsSignupModalOpen(true);
+              }
+            }}
+            className={`text-[white] text-[24px] font-normal transition-all duration-300 bg-[#D2691E] px-[20px] py-[8px] rounded-full border-none outline-none ${
+              isLoginModalOpen || isSignupModalOpen
+                ? 'cursor-not-allowed opacity-50'
+                : 'cursor-pointer hover:scale-105'
+            }`}
+          >
             Sign up
           </button>
         </div>
@@ -55,6 +106,16 @@ export default function Navigation() {
       <LoginModal 
         isOpen={isLoginModalOpen} 
         onClose={() => setIsLoginModalOpen(false)} 
+      />
+      
+      {/* Signup Modal */}
+      <SignupModal 
+        isOpen={isSignupModalOpen} 
+        onClose={() => setIsSignupModalOpen(false)}
+        onSwitchToLogin={() => {
+          setIsSignupModalOpen(false);
+          setIsLoginModalOpen(true);
+        }}
       />
     </nav>
   );

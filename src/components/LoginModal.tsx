@@ -104,11 +104,11 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       className="fixed top-0 left-0 w-full h-full flex items-start justify-center pt-[15vh] z-[10000]"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
     >
-      <div className="relative bg-[#0B0A44]/50 p-8 w-[400px] max-w-[90vw] rounded-[15px]">
+      <div className="relative bg-[#0B0A44] p-8 w-[400px] max-w-[90vw] rounded-[15px]">
         {/* 關閉按鈕 */}
         <button
           onClick={handleClose}
-          className="absolute right-[0px] top-[0px] text-[black] text-[15px] hover:text-gray-300 z-10"
+          className="absolute right-[0px] top-[0px] text-[white] text-[30px] hover:scale-115 duration-300 z-10 border-none outline-none bg-transparent"
         >
           ×
         </button>
