@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/useAuth';
 
 interface SignupModalProps {
   isOpen: boolean;
@@ -20,6 +21,28 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [usernameError, setUsernameError] = useState('');
+  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
+  const { checkUsername, register } = useAuth();
+
+  // 當模態框打開時重置狀態
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        phoneNumber: ''
+      });
+      setError('');
+      setUsernameError('');
+      setShowPassword(false);
+      setAgreedToTerms(false);
+      setIsLoading(false);
+      setIsCheckingUsername(false);
+    }
+  }, [isOpen]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,6 +59,38 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
         ...prev,
         [name]: value
       }));
+    }
+
+    // 清除用戶名錯誤
+    if (usernameError) {
+      setUsernameError('');
+    }
+  };
+
+  // 檢查用戶名是否可用
+  const checkUsernameAvailability = async () => {
+    if (!formData.firstName.trim() || !formData.lastName.trim()) {
+      setUsernameError('Please enter both first and last name');
+      return false;
+    }
+
+    const username = `${formData.firstName}${formData.lastName}`;
+    setIsCheckingUsername(true);
+    setUsernameError('');
+
+    try {
+      const exists = await checkUsername(username);
+      if (exists) {
+        setUsernameError('This username is already taken. Please try a different combination.');
+        return false;
+      }
+      return true;
+    } catch (error) {
+      console.error('Error checking username:', error);
+      setUsernameError('Error checking username availability');
+      return false;
+    } finally {
+      setIsCheckingUsername(false);
     }
   };
 
@@ -58,23 +113,36 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
       return;
     }
 
+    // 檢查用戶名是否可用
+    const isUsernameAvailable = await checkUsernameAvailability();
+    if (!isUsernameAvailable) {
+      return;
+    }
+
     setIsLoading(true);
     setError('');
 
     try {
-      // TODO: 實作實際的註冊邏輯
-      console.log('Signup with:', formData);
-      // 這裡之後會調用 Django 後端的註冊 API
+      const username = `${formData.firstName}${formData.lastName}`;
+      const result = await register(username, formData.email, formData.password, 'freelancer');
       
-      // 模擬註冊延遲
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // 顯示註冊成功提示
-      alert('Account created successfully!');
-      onClose();
+      if (result.success) {
+        // 顯示成功訊息
+        alert('Account created successfully! Please log in with your new account.');
+        
+        // 清空表單資料
+        handleClose();
+        
+        // 自動打開登入模態框
+        setTimeout(() => {
+          onSwitchToLogin?.();
+        }, 100);
+      } else {
+        setError(result.error || 'Failed to create account, please try again');
+      }
     } catch (error) {
       console.error('Signup error:', error);
-      setError('Failed to create account, please try again');
+      setError('Network error, please try again');
     } finally {
       setIsLoading(false);
     }
@@ -89,8 +157,10 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
       phoneNumber: ''
     });
     setError('');
+    setUsernameError('');
     setShowPassword(false);
     setAgreedToTerms(false);
+    setIsCheckingUsername(false);
     onClose();
   };
 
@@ -119,6 +189,13 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
         {error && (
           <div className="text-[#CB410F] mb-[15px] text-center text-[15px]">
             {error}
+          </div>
+        )}
+
+        {/* 用戶名錯誤訊息 */}
+        {usernameError && (
+          <div className="text-[#CB410F] mb-[15px] text-center text-[15px]">
+            {usernameError}
           </div>
         )}
 
@@ -153,6 +230,31 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
               />
             </div>
           </div>
+
+          {/* Username Display & Check */}
+          {formData.firstName.trim() && formData.lastName.trim() && (
+            <div>
+              <label className="block text-[#1a1a2e] text-[15px] font-medium">
+                Username (First + Last name)
+              </label>
+              <div className="flex space-x-[10px]">
+                <input
+                  type="text"
+                  value={`${formData.firstName}${formData.lastName}`}
+                  disabled
+                  className="flex-1 px-[15px] py-[5px] bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none text-[20px]"
+                />
+                <button
+                  type="button"
+                  onClick={checkUsernameAvailability}
+                  disabled={isCheckingUsername}
+                  className="bg-[#D2691E] text-[white] px-[15px] py-[5px] rounded-full border-none outline-none hover:opacity-80 transition-opacity disabled:opacity-50 text-[15px] font-medium"
+                >
+                  {isCheckingUsername ? 'Checking...' : 'Check'}
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Email */}
           <div>
@@ -232,7 +334,7 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
           <div className="flex justify-center mt-[30px]">
             <button
               onClick={handleSignup}
-              disabled={isLoading}
+              disabled={isLoading || isCheckingUsername || !!usernameError}
               className="bg-[#14A800] text-[white] border-none outline-none py-[10px] px-[15px] rounded-[5px] font-bold hover:opacity-80 transition-opacity disabled:opacity-50 text-[15px]"
             >
               {isLoading ? 'Creating account...' : 'Create my account'}

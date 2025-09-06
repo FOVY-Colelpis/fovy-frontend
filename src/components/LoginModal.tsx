@@ -20,6 +20,17 @@ export default function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginMod
   const [error, setError] = useState('');
   const { login } = useAuth();
 
+  // 當模態框打開時重置狀態
+  useEffect(() => {
+    if (isOpen) {
+      setCurrentStep('username');
+      setUsername('');
+      setPassword('');
+      setError('');
+      setIsLoading(false);
+    }
+  }, [isOpen]);
+
   // 檢查自動登入
   useEffect(() => {
     if (isOpen) {
