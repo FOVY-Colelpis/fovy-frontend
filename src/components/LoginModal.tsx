@@ -1,34 +1,54 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { authAPI, userAPI } from '@/lib/api';
+import { useAuth } from '@/hooks/useAuth';
 
 interface LoginModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onLoginSuccess?: (user: any) => void;
 }
 
 type LoginStep = 'username' | 'password' | 'login';
 
-export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+export default function LoginModal({ isOpen, onClose, onLoginSuccess }: LoginModalProps) {
   const [currentStep, setCurrentStep] = useState<LoginStep>('username');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { login } = useAuth();
 
-  // 模擬 API 檢查 username 是否存在
+  // 檢查自動登入
+  useEffect(() => {
+    if (isOpen) {
+      checkAutoLogin();
+    }
+  }, [isOpen]);
+
+  // 檢查自動登入
+  const checkAutoLogin = async () => {
+    try {
+      const user = await userAPI.checkAutoLogin();
+      if (user) {
+        onLoginSuccess?.(user);
+        onClose();
+      }
+    } catch (error) {
+      console.error('Auto login check failed:', error);
+    }
+  };
+
+  // 檢查 username 是否存在
   const checkUsernameExists = async (username: string): Promise<boolean> => {
-    // TODO: 替換為真實的 Django API 調用
     setIsLoading(true);
     try {
-      // 模擬 API 延遲
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // 模擬一些存在的用戶名
-      const existingUsernames = ['admin', 'user', 'test', 'demo'];
-      return existingUsernames.includes(username.toLowerCase());
+      const data = await authAPI.checkUsername(username);
+      return data.exists;
     } catch (error) {
       console.error('Error checking username:', error);
+      setError('Network error, please try again');
       return false;
     } finally {
       setIsLoading(false);
@@ -63,19 +83,18 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
   const handleLogin = async () => {
     setIsLoading(true);
     try {
-      // TODO: 實作實際的登入邏輯
-      console.log('Login with:', { username, password });
-      // 這裡之後會調用 Django 後端的登入 API
+      const result = await login(username, password);
       
-      // 模擬登入延遲
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // 顯示登入成功提示
-      alert('Success！');
-      onClose();
+      if (result.success) {
+        // 調用成功回調
+        onLoginSuccess?.(result.user);
+        onClose();
+      } else {
+        setError(result.error || 'Login failed, please try again');
+      }
     } catch (error) {
       console.error('Login error:', error);
-      setError('Failed to login, please try again');
+      setError('Network error, please try again');
     } finally {
       setIsLoading(false);
     }

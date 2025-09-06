@@ -4,12 +4,22 @@ import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import LoginModal from './LoginModal';
 import SignupModal from './SignupModal';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Navigation() {
   const router = useRouter();
   const pathname = usePathname();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
+
+  // 處理登出
+  const handleLogout = async () => {
+    const confirmed = window.confirm('Are you sure you want to logout?');
+    if (confirmed) {
+      await logout();
+    }
+  };
 
   // 監聽瀏覽器返回按鈕，關閉模態框
   useEffect(() => {
@@ -71,41 +81,56 @@ export default function Navigation() {
         
         {/* Auth buttons on the right */}
         <div className="flex items-center space-x-[16px]">
-          <button 
-            onClick={() => {
-              if (!isLoginModalOpen && !isSignupModalOpen) {
-                setIsLoginModalOpen(true);
-              }
-            }}
-            className={`text-[white] text-[24px] font-normal transition-all duration-300 bg-transparent border-none outline-none ${
-              isLoginModalOpen || isSignupModalOpen
-                ? 'cursor-not-allowed opacity-50'
-                : 'cursor-pointer hover:scale-105'
-            }`}
-          >
-            Log in
-          </button>
-          <button 
-            onClick={() => {
-              if (!isLoginModalOpen && !isSignupModalOpen) {
-                setIsSignupModalOpen(true);
-              }
-            }}
-            className={`text-[white] text-[24px] font-normal transition-all duration-300 bg-[#D2691E] px-[20px] py-[8px] rounded-full border-none outline-none ${
-              isLoginModalOpen || isSignupModalOpen
-                ? 'cursor-not-allowed opacity-50'
-                : 'cursor-pointer hover:scale-105'
-            }`}
-          >
-            Sign up
-          </button>
+          {isLoggedIn ? (
+            <button 
+              onClick={handleLogout}
+              className="text-[white] text-[24px] font-normal transition-all duration-300 bg-transparent border-none outline-none cursor-pointer hover:scale-105 hover:text-red-400"
+            >
+              Log out
+            </button>
+          ) : (
+            <>
+              <button 
+                onClick={() => {
+                  if (!isLoginModalOpen && !isSignupModalOpen) {
+                    setIsLoginModalOpen(true);
+                  }
+                }}
+                className={`text-[white] text-[24px] font-normal transition-all duration-300 bg-transparent border-none outline-none ${
+                  isLoginModalOpen || isSignupModalOpen
+                    ? 'cursor-not-allowed opacity-50'
+                    : 'cursor-pointer hover:scale-105'
+                }`}
+              >
+                Log in
+              </button>
+              <button 
+                onClick={() => {
+                  if (!isLoginModalOpen && !isSignupModalOpen) {
+                    setIsSignupModalOpen(true);
+                  }
+                }}
+                className={`text-[white] text-[24px] font-normal transition-all duration-300 bg-[#D2691E] px-[20px] py-[8px] rounded-full border-none outline-none ${
+                  isLoginModalOpen || isSignupModalOpen
+                    ? 'cursor-not-allowed opacity-50'
+                    : 'cursor-pointer hover:scale-105'
+                }`}
+              >
+                Sign up
+              </button>
+            </>
+          )}
         </div>
       </div>
       
       {/* Login Modal */}
       <LoginModal 
         isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)} 
+        onClose={() => setIsLoginModalOpen(false)}
+        onLoginSuccess={() => {
+          // 登入成功後關閉模態框
+          setIsLoginModalOpen(false);
+        }}
       />
       
       {/* Signup Modal */}
