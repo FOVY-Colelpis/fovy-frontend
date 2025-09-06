@@ -39,10 +39,18 @@ export const authAPI = {
   },
 
   // 用戶註冊
-  register: async (username: string, email: string, password: string, userType: string = 'freelancer') => {
+  register: async (username: string, email: string, password: string, userType: string = 'freelancer', firstName: string = '', lastName: string = '', phone: string = '') => {
     return apiCall('/auth/register/', {
       method: 'POST',
-      body: JSON.stringify({ username, email, password, user_type: userType }),
+      body: JSON.stringify({ 
+        username, 
+        email, 
+        password, 
+        user_type: userType,
+        first_name: firstName,
+        last_name: lastName,
+        phone: phone
+      }),
     });
   },
 

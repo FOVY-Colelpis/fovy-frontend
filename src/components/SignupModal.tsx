@@ -124,7 +124,15 @@ export default function SignupModal({ isOpen, onClose, onSwitchToLogin }: Signup
 
     try {
       const username = `${formData.firstName}${formData.lastName}`;
-      const result = await register(username, formData.email, formData.password, 'freelancer');
+      const result = await register(
+        username, 
+        formData.email, 
+        formData.password, 
+        'freelancer',
+        formData.firstName,
+        formData.lastName,
+        formData.phoneNumber
+      );
       
       if (result.success) {
         // 顯示成功訊息

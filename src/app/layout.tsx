@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navigation from "../components/Navigation";
 import { AuthProvider } from "../contexts/AuthContext";
+import AutoLoginNotification from "../components/AutoLoginNotification";
 
 export const metadata: Metadata = {
   title: "FOVY - Freelance Career Platform",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <AuthProvider>
           <Navigation />
           {children}
+          <AutoLoginNotification />
         </AuthProvider>
       </body>
     </html>

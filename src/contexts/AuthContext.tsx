@@ -19,7 +19,7 @@ interface AuthContextType {
   login: (username: string, password: string) => Promise<{ success: boolean; user?: User; error?: string }>;
   logout: () => Promise<void>;
   checkUsername: (username: string) => Promise<boolean>;
-  register: (username: string, email: string, password: string, userType?: string) => Promise<{ success: boolean; user?: User; error?: string }>;
+  register: (username: string, email: string, password: string, userType?: string, firstName?: string, lastName?: string, phone?: string) => Promise<{ success: boolean; user?: User; error?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,7 +33,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const initAuth = async () => {
       try {
         const currentUser = await userAPI.checkAutoLogin();
-        setUser(currentUser);
+        if (currentUser) {
+          // 如果找到有效 token，直接自動登入
+          setUser(currentUser);
+        }
       } catch (error) {
         console.error('Auth initialization failed:', error);
       } finally {
@@ -89,9 +92,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   // 註冊
-  const register = async (username: string, email: string, password: string, userType: string = 'freelancer') => {
+  const register = async (username: string, email: string, password: string, userType: string = 'freelancer', firstName: string = '', lastName: string = '', phone: string = '') => {
     try {
-      const data = await authAPI.register(username, email, password, userType);
+      const data = await authAPI.register(username, email, password, userType, firstName, lastName, phone);
       if (data.success) {
         return { success: true, user: data.user };
       } else {
