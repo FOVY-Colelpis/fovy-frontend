@@ -24,7 +24,7 @@ function SkillMapOverview() {
 
 function WeeklyAdvantage() {
   return (
-    <div>
+    <div className="bg-gray-300 h-[40vh]">
       asd
     </div>
   )
@@ -32,7 +32,7 @@ function WeeklyAdvantage() {
 
 function Growth() {
   return (
-    <div>
+   <div className="bg-gray-300 h-[40vh]">
       asd
     </div>
   )
@@ -40,8 +40,8 @@ function Growth() {
 
 function Match() {
   return (
-    <div>asd
-
+    <div className="bg-gray-300 h-[40vh]">
+      asd
     </div>
   )
 }
