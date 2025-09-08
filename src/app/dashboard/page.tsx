@@ -1,3 +1,4 @@
+
 'use client'
 import { useActionState, useState } from "react"
 interface SkillmapScore {
@@ -69,55 +70,12 @@ export default function Dashboard() {
     )
 }
 
-function SkillMapOverview({ allPercentage }: SkillMapData) {
-    const total = allPercentage.reduce((sum, item) => sum + item.value, 0);
-    const maxRadius = 80;
-    const svgWidth = 500;
-    const svgHeight = 300;
-
-    const circles: { name: string; value: number; radius: number; x: number; y: number }[] = [];
-
-    allPercentage.map(item => ({ ...item, radius: (item.value / total) * maxRadius + 20 }))
-        .forEach(item => {
-            let x: number, y: number;
-            let attempts = 0;
-            do {
-                x = Math.random() * (svgWidth - 2 * item.radius) + item.radius;
-                y = Math.random() * (svgHeight - 2 * item.radius) + item.radius;
-                attempts++;
-            } while (
-                circles.some(
-                    c =>
-                        Math.hypot(c.x - x, c.y - y) < c.radius + item.radius + 5
-                ) &&
-                attempts < 100
-            );
-            circles.push({ ...item, x, y });
-        });
-
-    return (
-        <div style={{ width: "100%", height: "100%", position: "relative" }}>
-            <svg width="100%" height="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
-                {circles.map((c, index) => {
-                const color=`${Math.floor(Math.random() * 255)+1},${Math.floor(Math.random() * 255)+1},${Math.floor(Math.random() * 255)+1}`
-                return (
-                    <g key={index}>
-                        <defs>
-                            <radialGradient id={`grad-${index}`} cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stopColor={`rgba(${color},0.6)`} />
-                                <stop offset="100%" stopColor={`rgba(${color},0.1)`} />
-                            </radialGradient>
-                        </defs>
-                        <circle cx={c.x} cy={c.y} r={c.radius} fill={`url(#grad-${index})`} strokeWidth={2}/>
-                        <text x={c.x} y={c.y} fontSize={14} fill="#000" textAnchor="middle" dominantBaseline="middle">
-                            <tspan x={c.x} dy="-0.6em">{c.value}%</tspan>
-                            <tspan x={c.x} dy="1.2em">{c.name}</tspan>
-                        </text>
-                    </g>
-                )})}
-            </svg>
-        </div>
-    );
+function SkillMapOverview() {
+  return (
+    <div className="bg-gray-300 h-[40vh]">
+      asd
+    </div>
+  )
 }
 
 function WeeklyAdvantage() {
