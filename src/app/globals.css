@@ -1,76 +1,60 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@font-face {
-  font-family: 'Alata';
-  src: url('/fonts/Alata-Regular.ttf') format('truetype');
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
-@font-face {
-  font-family: 'GrotesqueFit';
-  src: url('/fonts/body-grotesque.fit-trial-bold.ttf') format('truetype');
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
-@font-face {
-  font-family: 'GrotesqueLarge';
-  src: url('/fonts/body-grotesque.large-trial-bold.ttf') format('truetype');
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
-  font-family: 'Alata', sans-serif;
-  margin: 0;
-  padding: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
+p{
+  margin:0 0 10px 0;
 }
 
-/* Force desktop layout on mobile */
-@media (max-width: 1200px) {
-  .lg\:w-1\/2 {
-    width: 50% !important;
+.scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 100, 100, 0.4);
+  border-radius: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@keyframes borderBlink {
+  0%, 100% {
+    border-color: transparent;
   }
-  
-  .lg\:px-\[14\.28\%\] {
-    padding-left: 14.28% !important;
-    padding-right: 14.28% !important;
+  50% {
+    border-color: #ff0000;  /* 紅色邊框 */
+    scale:120%;
   }
-  
-  .lg\:pt-\[112px\] {
-    padding-top: 112px !important;
-  }
-  
-  .lg\:pb-\[48px\] {
-    padding-bottom: 48px !important;
-  }
-  
-  .lg\:mb-\[80px\] {
-    margin-bottom: 80px !important;
-  }
-  
-  .lg\:w-\[96px\] {
-    width: 96px !important;
-  }
-  
-  .lg\:h-auto {
-    height: auto !important;
-  }
-  
-  .lg\:text-\[120px\] {
-    font-size: 120px !important;
-  }
-  
-  .lg\:text-\[40px\] {
-    font-size: 40px !important;
-  }
-  
-  .lg\:text-\[58px\] {
-    font-size: 58px !important;
-  }
-  
-  .lg\:h-\[400px\] {
-    height: 400px !important;
-  }
+}
+
+.blink-border-button {
+  padding: 10px 20px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  animation: borderBlink 1s infinite;
 }
