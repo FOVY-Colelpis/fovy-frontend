@@ -1,5 +1,10 @@
 'use client'
-import { useActionState, useState } from "react"
+import { SetStateAction, useActionState, useState } from "react"
+import SkillTree from "./Component/SkillTree";
+import { motion, AnimatePresence } from "framer-motion";
+import UploadArea from "./Component/UploadUI";
+
+
 interface SkillmapScore {
     name: string,
     value: number,
@@ -14,55 +19,62 @@ export default function Dashboard() {
         return [{ name: "asd", value: 10 }, { name: "asd", value: 80 }, { name: "asd", value: 10 }]
     }, [{ name: "asd", value: 10 }, { name: "asd", value: 80 }, { name: "asd", value: 10 }])
 
-    const [name,setName,isSetNameComplete]=useActionState((prev:string,_name:string)=>{
+    const [name, setName, isSetNameComplete] = useActionState((prev: string, _name: string) => {
         return "aaa"
-    },"Undefined")
+    }, "Undefined")
 
-    const [grownPercent,setGrownPercent]=useState<number>(1)
+    const [isShowSkillTree, setShowSkillTree] = useState<boolean>(false)
+    const [grownPercent, setGrownPercent] = useState<number>(1)
 
     return (
-        <div className="pt-[50px] min-h-screen flex">
-            <div className="flex-1 flex flex-col gap-4 p-2 mx-4">
-                <div className="h-[40vh] my-[5px] rounded-2xl relative ">
-                    <SkillMapOverview allPercentage={allPercentage} />
-                    <button
-                        className="absolute bottom-2 right-2 bg-[#0B3886] w-[140px] px-2 py-2 rounded-full hover:bg-blue-600 shadow-md shadow-gray-500 m-3"
-                        onClick={() => alert("按鈕被點擊！")}>
-                        <span className=" text-white text-[22px]">skillmap</span>
-                    </button>
-                </div>
-                <div className="bg-gray-300 h-[40vh] my-[5px] relative rounded-2xl flex items-center justify-center">
-                    <Growth />
-                    <button
-                        className="absolute bottom-2 right-2 bg-[#CB410F] w-[140px] px-2 py-2 rounded-full hover:bg-blue-600 shadow-md shadow-gray-500 m-3"
-                        onClick={() => alert("按鈕被點擊！")}>
-                        <span className=" text-white text-[22px]">Growth</span>
-                    </button>
-                </div>
-            </div>
-            <div className="flex-1 flex flex-col gap-4 p-2 mx-4">
-                <div className="h-[40vh] my-[5px] relative ">
-                    <div>
-                    <span className=" text-gray-500 text-[40px] ">
-                        Hi {name}!!
-                    </span><br/>
-                    <span className=" text-[25px]">
-                        Your map has grown {grownPercent}% this week
-                    </span>
+        <div className="h-[90vh]">
+            <AnimatePresence>
+                {isShowSkillTree && <PopSkillTreeWindow setShowSkillTree={setShowSkillTree} />}
+            </AnimatePresence>
+
+            <div className="pt-[50px] min-h-screen flex">
+                <div className="flex-1 flex flex-col gap-4 p-2 mx-4">
+                    <div className="h-[40vh] my-[5px] rounded-2xl relative ">
+                        <SkillMapOverview allPercentage={allPercentage} />
+                        <button
+                            className="absolute bottom-2 right-2 bg-[#0B3886] w-[140px] px-2 py-2 rounded-full hover:bg-blue-600 shadow-md shadow-gray-500 m-3"
+                            onClick={() => setShowSkillTree(true)}>
+                            <span className=" text-white text-[22px]">skillmap</span>
+                        </button>
                     </div>
-                    <div className=" bg-gray-300 h-[30vh] rounded-2xl">
-                    <WeeklyAdvantage />
+                    <div className="bg-gray-300 h-[40vh] my-[5px] relative rounded-2xl flex items-center justify-center">
+                        <Growth />
+                        <button
+                            className="absolute bottom-2 right-2 bg-[#CB410F] w-[140px] px-2 py-2 rounded-full hover:bg-blue-600 shadow-md shadow-gray-500 m-3"
+                            onClick={() => alert("comming soon！")}>
+                            <span className=" text-white text-[22px]">Growth</span>
+                        </button>
                     </div>
                 </div>
-                <div className="bg-gray-300 h-[40vh] my-[5px] relative rounded-2xl flex items-center justify-center ">
-                    <div className="">
-                    <Match />
+                <div className="flex-1 flex flex-col gap-4 p-2 mx-4">
+                    <div className="h-[40vh] my-[5px] relative ">
+                        <div>
+                            <span className=" text-gray-500 text-[40px] ">
+                                Hi {name}!!
+                            </span><br />
+                            <span className=" text-[25px]">
+                                Your map has grown {grownPercent}% this week
+                            </span>
+                        </div>
+                        <div className=" bg-gray-300 h-[30vh] rounded-2xl">
+                            <WeeklyAdvantage />
+                        </div>
                     </div>
-                    <button
-                        className="absolute bottom-2 right-2 bg-[#FFBB47] w-[140px] px-2 py-2 rounded-full hover:bg-blue-600 shadow-md shadow-gray-500 m-3"
-                        onClick={() => alert("按鈕被點擊！")}>
-                        <span className=" text-white text-[22px]">Match</span>
-                    </button>
+                    <div className="bg-gray-300 h-[40vh] my-[5px] relative rounded-2xl flex items-center justify-center ">
+                        <div className="">
+                            <Match />
+                        </div>
+                        <button
+                            className="absolute bottom-2 right-2 bg-[#FFBB47] w-[140px] px-2 py-2 rounded-full hover:bg-blue-600 shadow-md shadow-gray-500 m-3"
+                            onClick={() => alert("comming soon!")}>
+                            <span className=" text-white text-[22px]">Match</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,22 +111,23 @@ function SkillMapOverview({ allPercentage }: SkillMapData) {
         <div style={{ width: "100%", height: "100%", position: "relative" }}>
             <svg width="100%" height="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
                 {circles.map((c, index) => {
-                const color=`${Math.floor(Math.random() * 255)+1},${Math.floor(Math.random() * 255)+1},${Math.floor(Math.random() * 255)+1}`
-                return (
-                    <g key={index}>
-                        <defs>
-                            <radialGradient id={`grad-${index}`} cx="50%" cy="50%" r="50%">
-                                <stop offset="0%" stopColor={`rgba(${color},0.6)`} />
-                                <stop offset="100%" stopColor={`rgba(${color},0.1)`} />
-                            </radialGradient>
-                        </defs>
-                        <circle cx={c.x} cy={c.y} r={c.radius} fill={`url(#grad-${index})`} strokeWidth={2}/>
-                        <text x={c.x} y={c.y} fontSize={14} fill="#000" textAnchor="middle" dominantBaseline="middle">
-                            <tspan x={c.x} dy="-0.6em">{c.value}%</tspan>
-                            <tspan x={c.x} dy="1.2em">{c.name}</tspan>
-                        </text>
-                    </g>
-                )})}
+                    const color = `${Math.floor(Math.random() * 255) + 1},${Math.floor(Math.random() * 255) + 1},${Math.floor(Math.random() * 255) + 1}`
+                    return (
+                        <g key={index}>
+                            <defs>
+                                <radialGradient id={`grad-${index}`} cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stopColor={`rgba(${color},0.6)`} />
+                                    <stop offset="100%" stopColor={`rgba(${color},0.1)`} />
+                                </radialGradient>
+                            </defs>
+                            <circle cx={c.x} cy={c.y} r={c.radius} fill={`url(#grad-${index})`} strokeWidth={2} />
+                            <text x={c.x} y={c.y} fontSize={14} fill="#000" textAnchor="middle" dominantBaseline="middle">
+                                <tspan x={c.x} dy="-0.6em">{c.value}%</tspan>
+                                <tspan x={c.x} dy="1.2em">{c.name}</tspan>
+                            </text>
+                        </g>
+                    )
+                })}
             </svg>
         </div>
     );
@@ -123,7 +136,7 @@ function SkillMapOverview({ allPercentage }: SkillMapData) {
 function WeeklyAdvantage() {
     return (
         <div className="">
-            
+
         </div>
     )
 }
@@ -131,7 +144,7 @@ function WeeklyAdvantage() {
 function Growth() {
     return (
         <div className=" text-gray-500 text-3xl">
-             Ooopps!This feature isn`t open yet.
+            Ooopps!This feature isn`t open yet.
         </div>
     )
 }
@@ -142,4 +155,80 @@ function Match() {
             Ooopps!This feature isn`t open yet.
         </div>
     )
+}
+
+function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Dispatch<SetStateAction<boolean>> }) {
+    const [showUpload,setShowUpload]=useState<boolean>(false)
+
+    const [data] = useState({
+        nodes: [
+            { id: "1", name: "軟體工程基礎", level: 1, score: 5 },
+            { id: "1.1", name: "程式語言基礎", level: 2, score: 4 },
+            { id: "1.1.1", name: "Python", level: 3, score: 5 },
+            { id: "1.1.2", name: "JavaScript", level: 3, score: 5 },
+            { id: "1.1.3", name: "Tailwind", level: 3, score: 3 },
+            { id: "2", name: "後端開發", level: 1, score: 4 },
+            { id: "2.3", name: "網路與通訊", level: 2, score: 4 },
+            { id: "2.3.1", name: "WebSocket", level: 3, score: 4 },
+        ],
+        links: [
+            { source: "1", target: "1.1" },
+            { source: "1.1", target: "1.1.1" },
+            { source: "1.1", target: "1.1.2" },
+            { source: "1.1", target: "1.1.3" },
+            { source: "2", target: "2.3" },
+            { source: "2.3", target: "2.3.1" },
+        ],
+    });
+
+    return (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 h-full">
+            <motion.div
+                className="relative h-[90vh] w-[90%] bg-gray-900 shadow-2xl rounded-xl overflow-hidden flex flex-col"
+                initial={{ rotateY: -90, opacity: 0 }}
+                animate={{ rotateY: 0, opacity: 1 }}
+                exit={{ rotateY: 90, opacity: 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+                style={{ transformOrigin: "left center" }}
+            >
+
+                <div className="absolute top-3 right-3 p-2 rounded-full hover:scale-125 ease-in-out duration-200 transition z-50">
+                    <button onClick={() => setShowSkillTree(false)}>X</button>
+                </div>
+
+                <div className="flex-1 flex h-[80vh]">
+                    <div className="flex-1 bg-gray-500 overflow-hidden">
+                        <SkillTree data={data} />
+                    </div>
+
+                    <div className="w-2/12 bg-gray-200 p-4 flex items-center justify-center">
+                        控制面板內容
+                    </div>
+                </div>
+
+                <div className="w-full bg-gray-800 text-white p-4 flex justify-around items-center h-[10vh]">
+                    <div className="w-[50%] flex flex-1 justify-center">
+                        <div className="bg-gray-600 rounded-full p-5 mx-5">
+                        <button className="hover:scale-125 duration-150 ease-in-out" onClick={()=>alert("comming soon!")}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10 ">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                            </svg>
+                        </button>
+                        </div>
+                        <div className="bg-gray-600 rounded-full p-5">
+                            {showUpload && <UploadArea show={showUpload} setShow={setShowUpload}></UploadArea>}
+                            <button className="mx-5 hover:scale-125 duration-150 ease-in-out" onClick={()=>setShowUpload((prev) => !prev)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            </button>
+                            <button className="mx-5 hover:scale-125 duration-150 ease-in-out">
+                                <img src="/images/fovy_logo.png" alt="icon" className="w-10 h-10" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+        </div>
+    );
 }
