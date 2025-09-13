@@ -13,11 +13,18 @@ async function apiCall(endpoint: string, options: RequestInit = {}) {
     ...options,
   });
 
+  const data = await response.json();
+
+  // 對於認證相關的錯誤（400, 401），返回錯誤數據而不是拋出異常
+  if (!response.ok && (response.status === 400 || response.status === 401)) {
+    return data;
+  }
+
   if (!response.ok) {
     throw new Error(`API call failed: ${response.status}`);
   }
 
-  return response.json();
+  return data;
 }
 
 // 認證相關 API
