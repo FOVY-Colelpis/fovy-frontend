@@ -5,22 +5,35 @@ const API_BASE = process.env.NODE_ENV === 'production'
 
 // 通用 API 調用函數
 async function apiCall(endpoint: string, options: RequestInit = {}) {
+  // 獲取認證 token
+  const token = localStorage.getItem('fovy_token');
+  
+  console.log(`API Call: ${API_BASE}${endpoint}`, {
+    token: token ? `${token.substring(0, 10)}...` : 'No token',
+    method: options.method || 'GET'
+  });
+  
   const response = await fetch(`${API_BASE}${endpoint}`, {
     headers: {
       'Content-Type': 'application/json',
+      ...(token && { 'Authorization': `Token ${token}` }),
       ...options.headers,
     },
     ...options,
   });
 
+  console.log(`API Response: ${response.status} ${response.statusText}`);
+
   const data = await response.json();
 
   // 對於認證相關的錯誤（400, 401），返回錯誤數據而不是拋出異常
   if (!response.ok && (response.status === 400 || response.status === 401)) {
+    console.log('API Error:', data);
     return data;
   }
 
   if (!response.ok) {
+    console.log('API Network Error:', response.status, data);
     throw new Error(`API call failed: ${response.status}`);
   }
 
@@ -74,6 +87,30 @@ export const authAPI = {
     return apiCall('/auth/logout/', {
       method: 'POST',
       body: JSON.stringify({ token }),
+    });
+  },
+
+  // 更新個人資料
+  updateProfile: async (profileData: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string;
+  }) => {
+    return apiCall('/auth/update-profile/', {
+      method: 'PUT',
+      body: JSON.stringify(profileData),
+    });
+  },
+
+  // 更改密碼
+  changePassword: async (passwordData: {
+    current_password: string;
+    new_password: string;
+  }) => {
+    return apiCall('/auth/change-password/', {
+      method: 'POST',
+      body: JSON.stringify(passwordData),
     });
   },
 };

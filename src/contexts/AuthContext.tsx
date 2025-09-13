@@ -9,6 +9,7 @@ interface User {
   email: string;
   first_name: string;
   last_name: string;
+  phone: string;
   date_joined: string;
 }
 
@@ -20,6 +21,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   checkUsername: (username: string) => Promise<boolean>;
   register: (username: string, email: string, password: string, userType?: string, firstName?: string, lastName?: string, phone?: string) => Promise<{ success: boolean; user?: User; error?: string }>;
+  updateUser: (updatedUser: User) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -106,6 +108,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // 更新用戶資料
+  const updateUser = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem('fovy_user', JSON.stringify(updatedUser));
+  };
+
   const value = {
     user,
     isLoading,
@@ -114,6 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     logout,
     checkUsername,
     register,
+    updateUser,
   };
 
   return (

@@ -27,7 +27,7 @@ export default function LoginPage() {
     try {
       const user = await userAPI.checkAutoLogin();
       if (user) {
-        router.push('/');
+        router.push('/dashboard');
       }
     } catch (error) {
       console.error('Auto login check failed:', error);
@@ -81,7 +81,7 @@ export default function LoginPage() {
       const result = await login(username, password);
       
       if (result.success) {
-        router.push('/');
+        router.push('/dashboard');
       } else {
         // 檢查是否是密碼錯誤（後端返回 'Invalid credentials'）
         if (result.error && (result.error.toLowerCase().includes('password') || result.error.toLowerCase().includes('invalid credentials'))) {
