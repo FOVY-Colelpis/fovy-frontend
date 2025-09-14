@@ -188,7 +188,7 @@ export default function ProfilePage() {
                 disabled={!isEditing}
                 className={`w-full px-4 py-3 rounded-lg border ${
                   errors.firstName ? 'border-red-500' : 'border-gray-600'
-                } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#D2691E] focus:border-transparent ${
+                } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#CB410F] focus:border-transparent ${
                   !isEditing ? 'opacity-60 cursor-not-allowed' : ''
                 }`}
                 placeholder="Enter your first name"
@@ -210,7 +210,7 @@ export default function ProfilePage() {
                 disabled={!isEditing}
                 className={`w-full px-4 py-3 rounded-lg border ${
                   errors.lastName ? 'border-red-500' : 'border-gray-600'
-                } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#D2691E] focus:border-transparent ${
+                } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#CB410F] focus:border-transparent ${
                   !isEditing ? 'opacity-60 cursor-not-allowed' : ''
                 }`}
                 placeholder="Enter your last name"
@@ -254,7 +254,7 @@ export default function ProfilePage() {
                 disabled={!isEditing}
                 className={`w-full px-4 py-3 rounded-lg border ${
                   errors.email ? 'border-red-500' : 'border-gray-600'
-                } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#D2691E] focus:border-transparent ${
+                } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#CB410F] focus:border-transparent ${
                   !isEditing ? 'opacity-60 cursor-not-allowed' : ''
                 }`}
                 placeholder="Enter your email"
@@ -275,7 +275,7 @@ export default function ProfilePage() {
                 value={profileData.phone}
                 onChange={handleInputChange}
                 disabled={!isEditing}
-                className={`w-full px-4 py-3 rounded-lg border border-gray-600 bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#D2691E] focus:border-transparent ${
+                className={`w-full px-4 py-3 rounded-lg border border-gray-600 bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#CB410F] focus:border-transparent ${
                   !isEditing ? 'opacity-60 cursor-not-allowed' : ''
                 }`}
                 placeholder="Enter your phone number"
@@ -288,7 +288,7 @@ export default function ProfilePage() {
             {!isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="bg-[#D2691E] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#B85A1A] transition-colors duration-200"
+                className="bg-[#CB410F] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#B85A1A] transition-colors duration-200"
               >
                 Edit Profile
               </button>
@@ -304,7 +304,7 @@ export default function ProfilePage() {
                 <button
                   onClick={handleSave}
                   disabled={isLoading}
-                  className="bg-[#D2691E] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#B85A1A] transition-colors duration-200 disabled:opacity-50"
+                  className="bg-[#CB410F] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#B85A1A] transition-colors duration-200 disabled:opacity-50"
                 >
                   {isLoading ? 'Saving...' : 'Save Changes'}
                 </button>

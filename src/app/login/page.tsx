@@ -135,7 +135,7 @@ export default function LoginPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && currentStep === 'username' && handleUsernameNext()}
-                className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#D2691E] text-xl placeholder-gray-500"
+                className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#CB410F] text-xl placeholder-gray-500"
                 disabled={isLoading || currentStep === 'password'}
                 style={{
                   opacity: currentStep === 'password' ? 0.7 : 1,
@@ -151,7 +151,7 @@ export default function LoginPage() {
               <button
                 onClick={handleUsernameNext}
                 disabled={isLoading}
-                className="w-full bg-[#D2691E] text-white py-4 rounded-lg font-bold hover:opacity-80 transition-opacity disabled:opacity-50 text-lg border-none shadow-none outline-none"
+                className="w-full bg-[#CB410F] text-white py-4 rounded-lg font-bold hover:opacity-80 transition-opacity disabled:opacity-50 text-lg border-none shadow-none outline-none"
               >
                 {isLoading ? 'checking...' : 'Next'}
               </button>
@@ -179,7 +179,7 @@ export default function LoginPage() {
                       }
                     }}
                     onKeyPress={(e) => e.key === 'Enter' && handlePasswordNext()}
-                    className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#D2691E] text-xl placeholder-gray-500"
+                    className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#CB410F] text-xl placeholder-gray-500"
                     disabled={isLoading}
                   />
                 </div>
@@ -203,7 +203,7 @@ export default function LoginPage() {
                 <button
                   onClick={handlePasswordNext}
                   disabled={isLoading}
-                  className="flex-1 bg-[#D2691E] text-white py-4 rounded-lg font-bold hover:opacity-80 transition-opacity disabled:opacity-50 text-lg border-none shadow-none outline-none"
+                  className="flex-1 bg-[#CB410F] text-white py-4 rounded-lg font-bold hover:opacity-80 transition-opacity disabled:opacity-50 text-lg border-none shadow-none outline-none"
                 >
                   {isLoading ? 'Loading...' : 'Login'}
                 </button>

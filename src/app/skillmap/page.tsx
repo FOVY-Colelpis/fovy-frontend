@@ -202,14 +202,14 @@ export default function SkillMapPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#1a1a2e] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0B0A44] flex items-center justify-center">
         <div className="text-white text-xl">Loading skill map...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#1a1a2e] pt-20">
+    <div className="min-h-screen bg-[#0B0A44] pt-20">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -318,7 +318,7 @@ export default function SkillMapPage() {
           <button
             onClick={handleUploadClick}
             disabled={isUploading}
-            className="w-10 h-10 bg-[#D2691E] rounded-full flex items-center justify-center hover:bg-[#B85A1A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-10 h-10 bg-[#CB410F] rounded-full flex items-center justify-center hover:bg-[#B85A1A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             title="上傳新 PDF"
           >
             {isUploading ? (

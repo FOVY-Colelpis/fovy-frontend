@@ -229,7 +229,7 @@ export default function SignupPage() {
                   placeholder="First name"
                   value={formData.firstName}
                   onChange={handleInputChange}
-                  className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#D2691E] text-lg placeholder-gray-500"
+                  className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#CB410F] text-lg placeholder-gray-500"
                   disabled={isLoading || isCheckingUsername}
                 />
               </div>
@@ -245,7 +245,7 @@ export default function SignupPage() {
                   placeholder="Last name"
                   value={formData.lastName}
                   onChange={handleInputChange}
-                  className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#D2691E] text-lg placeholder-gray-500"
+                  className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#CB410F] text-lg placeholder-gray-500"
                   disabled={isLoading || isCheckingUsername}
                 />
               </div>
@@ -262,7 +262,7 @@ export default function SignupPage() {
             <div className="flex items-center justify-center space-x-4">
               <div className="flex items-center space-x-2">
                 <span className="text-gray-300 text-sm">Username:</span>
-                <span className="text-[#D2691E] text-sm font-bold">
+                <span className="text-[#CB410F] text-sm font-bold">
                   {formData.firstName}{formData.lastName}
                 </span>
               </div>
@@ -270,7 +270,7 @@ export default function SignupPage() {
                 <button
                   onClick={checkUsernameAvailability}
                   disabled={isCheckingUsername}
-                  className="bg-[#D2691E] text-white px-4 py-2 rounded-lg font-medium hover:opacity-80 transition-opacity disabled:opacity-50 text-sm"
+                  className="bg-[#CB410F] text-white px-4 py-2 rounded-lg font-medium hover:opacity-80 transition-opacity disabled:opacity-50 text-sm"
                 >
                   {isCheckingUsername ? 'Checking...' : 'Check'}
                 </button>
@@ -298,7 +298,7 @@ export default function SignupPage() {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#D2691E] text-lg placeholder-gray-500"
+                className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#CB410F] text-lg placeholder-gray-500"
                 disabled={isLoading}
               />
             </div>
@@ -323,7 +323,7 @@ export default function SignupPage() {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="w-full pl-12 pr-12 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#D2691E] text-lg placeholder-gray-500"
+                className="w-full pl-12 pr-12 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#CB410F] text-lg placeholder-gray-500"
                 disabled={isLoading}
               />
               <button
@@ -359,7 +359,7 @@ export default function SignupPage() {
                 </svg>
               </div>
               <select
-                className="w-full pl-12 pr-10 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#D2691E] text-lg appearance-none cursor-pointer"
+                className="w-full pl-12 pr-10 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#CB410F] text-lg appearance-none cursor-pointer"
                 disabled={isLoading}
                 onChange={(e) => {
                   if (countryError) {
@@ -398,7 +398,7 @@ export default function SignupPage() {
               placeholder="Phone Number (Optional)"
               value={formData.phoneNumber}
               onChange={handleInputChange}
-              className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#D2691E] text-lg placeholder-gray-500"
+              className="w-full pl-12 pr-4 py-4 bg-[#E0E0E0] text-[#1a1a2e] rounded-full border-none outline-none focus:ring-2 focus:ring-[#CB410F] text-lg placeholder-gray-500"
               disabled={isLoading}
             />
           </div>
@@ -409,7 +409,7 @@ export default function SignupPage() {
               <input
                 type="checkbox"
                 id="tips"
-                className="w-4 h-4 text-[#D2691E] bg-transparent border-gray-500 rounded focus:ring-[#D2691E] focus:ring-2"
+                className="w-4 h-4 text-[#CB410F] bg-transparent border-gray-500 rounded focus:ring-[#CB410F] focus:ring-2"
                 disabled={isLoading}
               />
               <label htmlFor="tips" className="text-gray-300 text-sm">
@@ -427,7 +427,7 @@ export default function SignupPage() {
                     setTermsError('');
                   }
                 }}
-                className="w-4 h-4 text-[#D2691E] bg-transparent border-gray-500 rounded focus:ring-[#D2691E] focus:ring-2"
+                className="w-4 h-4 text-[#CB410F] bg-transparent border-gray-500 rounded focus:ring-[#CB410F] focus:ring-2"
                 disabled={isLoading}
               />
               <label htmlFor="terms" className="text-gray-300 text-sm">
@@ -446,7 +446,7 @@ export default function SignupPage() {
             <button
               onClick={handleSignup}
               disabled={isLoading || isCheckingUsername}
-              className="w-full bg-[#D2691E] text-white py-4 rounded-lg font-bold hover:opacity-80 transition-opacity disabled:opacity-50 text-lg border-none shadow-none outline-none"
+              className="w-full bg-[#CB410F] text-white py-4 rounded-lg font-bold hover:opacity-80 transition-opacity disabled:opacity-50 text-lg border-none shadow-none outline-none"
             >
               {isLoading ? 'Creating Account...' : 'Create my account'}
             </button>

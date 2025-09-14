@@ -58,7 +58,7 @@ export default function Navigation() {
   ];
 
     return (
-    <nav className="fixed top-0 z-[9999] bg-[#191919] w-[100%] min-w-[200px] h-[50px]">
+    <nav className="fixed top-0 z-[9999] bg-[#0B0A44] w-[100%] min-w-[200px] h-[50px]">
       <div className="flex items-center justify-between px-[24px] h-full">
         {/* Navigation items on the left */}
         <div className="flex items-center space-x-[24px]">
@@ -84,7 +84,7 @@ export default function Navigation() {
               {/* 用戶頭像 */}
               <button
                 onClick={handleUserMenuClick}
-                className="flex items-center justify-center w-[40px] h-[40px] bg-[#D2691E] rounded-full text-white font-bold text-lg hover:bg-[#B85A1A] transition-colors duration-300"
+                className="flex items-center justify-center w-[40px] h-[40px] bg-[#CB410F] rounded-full text-white font-bold text-lg hover:bg-[#B85A1A] transition-colors duration-300"
               >
                 {user?.username?.charAt(0).toUpperCase() || 'U'}
               </button>
@@ -158,7 +158,7 @@ export default function Navigation() {
               </button>
               <button 
                 onClick={() => router.push('/signup')}
-                className="text-[white] text-[24px] font-normal transition-all duration-300 bg-[#D2691E] px-[20px] py-[8px] rounded-full border-none outline-none cursor-pointer hover:scale-105"
+                className="text-[white] text-[24px] font-normal transition-all duration-300 bg-[#CB410F] px-[20px] py-[8px] rounded-full border-none outline-none cursor-pointer hover:scale-105"
               >
                 Sign up
               </button>

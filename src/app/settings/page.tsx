@@ -191,7 +191,7 @@ export default function SettingsPage() {
                   onClick={() => handleThemeChange('light')}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                     theme === 'light'
-                      ? 'bg-[#D2691E] text-white'
+                      ? 'bg-[#CB410F] text-white'
                       : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
                   }`}
                 >
@@ -201,7 +201,7 @@ export default function SettingsPage() {
                   onClick={() => handleThemeChange('dark')}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
                     theme === 'dark'
-                      ? 'bg-[#D2691E] text-white'
+                      ? 'bg-[#CB410F] text-white'
                       : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
                   }`}
                 >
@@ -224,7 +224,7 @@ export default function SettingsPage() {
               </div>
               <button
                 onClick={() => setIsChangingPassword(true)}
-                className="bg-[#D2691E] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#B85A1A] transition-colors duration-200"
+                className="bg-[#CB410F] text-white px-4 py-2 rounded-lg font-medium hover:bg-[#B85A1A] transition-colors duration-200"
               >
                 Change Password
               </button>
@@ -243,7 +243,7 @@ export default function SettingsPage() {
                     onChange={handlePasswordChange}
                     className={`w-full px-4 py-3 pr-12 rounded-lg border ${
                       passwordErrors.currentPassword ? 'border-red-500' : 'border-gray-600'
-                    } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#D2691E] focus:border-transparent`}
+                    } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#CB410F] focus:border-transparent`}
                     placeholder="Enter your current password"
                   />
                   <button
@@ -280,7 +280,7 @@ export default function SettingsPage() {
                     onChange={handlePasswordChange}
                     className={`w-full px-4 py-3 pr-12 rounded-lg border ${
                       passwordErrors.newPassword ? 'border-red-500' : 'border-gray-600'
-                    } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#D2691E] focus:border-transparent`}
+                    } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#CB410F] focus:border-transparent`}
                     placeholder="Enter your new password"
                   />
                   <button
@@ -317,7 +317,7 @@ export default function SettingsPage() {
                     onChange={handlePasswordChange}
                     className={`w-full px-4 py-3 pr-12 rounded-lg border ${
                       passwordErrors.confirmPassword ? 'border-red-500' : 'border-gray-600'
-                    } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#D2691E] focus:border-transparent`}
+                    } bg-[#2a2a3e] text-white placeholder-gray-400 focus:ring-2 focus:ring-[#CB410F] focus:border-transparent`}
                     placeholder="Confirm your new password"
                   />
                   <button
@@ -353,7 +353,7 @@ export default function SettingsPage() {
                 <button
                   onClick={handlePasswordSubmit}
                   disabled={isLoading}
-                  className="bg-[#D2691E] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#B85A1A] transition-colors duration-200 disabled:opacity-50"
+                  className="bg-[#CB410F] text-white px-6 py-3 rounded-lg font-medium hover:bg-[#B85A1A] transition-colors duration-200 disabled:opacity-50"
                 >
                   {isLoading ? 'Changing...' : 'Change Password'}
                 </button>
