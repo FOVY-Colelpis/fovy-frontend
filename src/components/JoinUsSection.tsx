@@ -4,29 +4,29 @@ import Image from 'next/image';
 
 export default function JoinUsSection() {
     return (
-      <section className="bg-[#343436] text-[white] py-20 px-6">
-        <div className="max-w-7xl mx-auto h-full relative px-[14.28%]">
+      <section className="bg-[#343436] text-[white] px-6">
+        <div className="max-w-7xl mx-auto h-full relative px-6">
           {/* Top Content */}
-          <div className="text-center mb-12" style={{margin: 0, paddingTop: '50px'}}>
+          <div className="text-center mb-8 pt-8">
             <div className="flex items-center justify-center gap-4">
-                              <span className="text-[78px] font-bold text-[#5DE1E6] pb-[15px]">JOIN US&nbsp;</span>
-              <span className="text-[40px] font-medium">
+                              <span className="text-[64px] font-bold text-[#5DE1E6] pb-[15px]">JOIN US&nbsp;</span>
+              <span className="text-[38px] font-medium">
                 We're building the future of freelance careers
               </span>
             </div>
-            <p className="text-[40px] font-medium text-center">
+            <p className="text-[38px] font-medium text-center">
               and we're looking for someone who's excited to build it with us.
             </p>
           </div>
 
           {/* Arrow */}
-          <div className="flex justify-center my-[100px]">
-            <div className="w-[200px] h-[200px] relative">
+          <div className="flex justify-center mb-12">
+            <div className="relative">
               <Image
                 src="/images/arrow.png"
                 alt="arrow"
-                width={200}
-                height={200}
+                width={150}
+                height={150}
                 className="object-contain"
               />
             </div>
