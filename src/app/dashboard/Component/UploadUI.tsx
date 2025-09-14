@@ -1,0 +1,85 @@
+'use client'
+import React, { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+interface UploadAreaProps {
+  show: boolean;
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function UploadArea({ show, setShow }: UploadAreaProps) {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [dragging, setDragging] = useState(false);
+  const [fileName, setFileName] = useState<string | null>(null);
+
+  const handleFiles = (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    setFileName(file.name);
+    console.log("Selected file:", file);
+    // 這裡可以做上傳 API call
+  };
+
+  return (
+    <AnimatePresence>
+      {show && (
+        <>
+          {/* 背景遮罩 */}
+          <motion.div
+            className="fixed inset-0 bg-black/50 z-[200]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setShow(false)} // 點擊背景關閉
+          />
+
+          {/* 上傳區塊 */}
+          <motion.div
+            className={`fixed bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center justify-center w-80 h-60 rounded-xl border-2 border-dashed cursor-pointer z-[300]
+              ${dragging ? "border-blue-500 bg-blue-50" : "border-gray-300 bg-gray-100"} transition-colors`}
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 50, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            onClick={() => fileInputRef.current?.click()}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setDragging(true);
+            }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={(e) => {
+              e.preventDefault();
+              setDragging(false);
+              handleFiles(e.dataTransfer.files);
+            }}
+          >
+            <input
+              type="file"
+              accept=".pdf"
+              className="hidden"
+              ref={fileInputRef}
+              onChange={(e) => handleFiles(e.target.files)}
+            />
+
+            <div className="mb-2 text-blue-400">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" />
+              </svg>
+            </div>
+
+            <div className="text-blue-700 font-semibold mb-2">.PDF</div>
+            <div className="font-semibold text-gray-800 mb-1">Drag / Upload your CV</div>
+            <div className="text-gray-500 text-sm text-center">
+              let us map your skills automatically.<br />
+              PDF format required
+            </div>
+
+            {fileName && (
+              <div className="mt-2 text-gray-700 text-sm truncate w-full text-center">{fileName}</div>
+            )}
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
