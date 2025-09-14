@@ -43,56 +43,46 @@ const sdgs = [
 
 export default function SDGSection() {
   return (
-    <section className="bg-[#E2E2EB] text-black py-20 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center">
-          <h2 className="text-[54px] font-bold pt-[100px]" style={{margin: 0}}>
-            Designing a More Inclusive Future of Work
-          </h2>
-          <p className="text-[32px] pt-[80px] pb-[120px]" style={{margin: 0}}>
-            Empowering non-traditional talent through inclusive, skill-based career systems.
-          </p>
-        </div>
+    <section className="bg-[#E2E2EB] text-black pt-12">
+      <div className="text-center">
+        <h2 className="text-[42px] font-bold pt-12">
+          Designing a More Inclusive Future of Work
+        </h2>
+        <p className="text-[32px] py-12">
+          Empowering non-traditional talent through inclusive, skill-based career systems.
+        </p>
+      </div>
 
-        <div className="space-y-6">
-          {sdgs.map((sdg, index) => (
-            <div
-              key={index}
-              className={`flex items-center justify-between p-8 rounded-xl text-[white] ${
-                index === 0 ? 'bg-[#C51A2D]' :
-                index === 1 ? 'bg-[#A21842]' :
-                index === 2 ? 'bg-[#FD6825]' :
-                'bg-[#DD1466]'
-              }`}
-            >
-                            <div className="flex items-center space-x-[30px] px-[200px]">
-                {index === 1 || index === 3 ? (
-                  <>
-                    <div className="text-[32px] leading-relaxed max-w-2xl">
-                      {sdg.description}
-                    </div>
-                    <div className="text-center">
-                      <div className="mt-4">
-                        <Image src={sdg.image} alt={sdg.title} width={265} height={265} className="object-contain" />
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="text-center">
-                      <div className="mt-4">
-                        <Image src={sdg.image} alt={sdg.title} width={265} height={265} className="object-contain" />
-                      </div>
-                    </div>
-                    <div className="text-[32px] leading-relaxed max-w-2xl">
-                      {sdg.description}
-                    </div>
-                  </>
-                )}
-              </div>
+      <div className="pt-12">
+        {sdgs.map((sdg, index) => (
+          <div
+            key={index}
+            className={`flex items-center justify-between text-[white] ${
+              index === 0 ? 'bg-[#C51A2D]' :
+              index === 1 ? 'bg-[#A21842]' :
+              index === 2 ? 'bg-[#FD6825]' :
+              'bg-[#DD1466]'
+            }`}
+          >
+            <div className="flex items-center space-x-[30px] px-[200px] py-8">
+              {index === 1 || index === 3 ? (
+                <>
+                  <div className="text-[32px] max-w-5/7 py-12 leading-relaxed">
+                    {sdg.description}
+                  </div>
+                  <Image src={sdg.image} alt={sdg.title} width={265} height={265} className="object-contain" />                  {/* </div> */}
+                </>
+              ) : (
+                <>
+                  <Image src={sdg.image} alt={sdg.title} width={265} height={265} className="object-contain" />                  {/* </div> */}
+                  <div className="text-[32px] max-w-5/7 py-12 leading-relaxed">
+                    {sdg.description}
+                  </div>
+                </>
+              )}
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
   );

@@ -21,9 +21,9 @@ const goals = [
 
 export default function PuzzleSection() {
   return (
-          <section className="bg-[#343436] flex items-center justify-center py-20">
-        <div className="max-w-7xl mx-auto text-center" style={{transform: 'translateY(-50px)'}}>
-        <h2 className="text-[58px] text-[white] leading-tight text-center px-[350px] m-0 font-normal pb-[120px] pt-[100px]" style={{margin: 0}}>
+          <section className="bg-[#343436] flex items-center justify-center py-12 pb-[400px]">
+        <div className="max-w-8xl mx-auto text-center">
+        <h2 className="text-[52px] text-[white] leading-tight text-center px-[400px] m-0 font-normal pb-24 pt-8">
           For Startups, NGOs, and Teams that care about potential.
         </h2>
 
@@ -31,13 +31,13 @@ export default function PuzzleSection() {
           {goals.map((goal) => (
             <div
               key={goal.id}
-              className="bg-[white] text-[black] rounded-[30px] p-8 flex flex-col items-center relative w-[400px]"
+              className="bg-[white] text-[black] rounded-[30px] p-8 flex flex-col items-center relative w-[350px]"
             >
               {/* 上方 Goal */}
               <p className="text-[#3e5ef4] text-lg font-bold my-[20px] text-center">{goal.id}</p>
               
               {/* 中間內文 */}
-              <h3 className="text-[30px] font-normal text-center leading-snug mt-[20px] mb-[180px] flex-grow px-[20px]">
+              <h3 className="text-[28px] font-normal text-center leading-snug mt-[20px] flex-grow">
                 {goal.title}
               </h3>
             </div>
@@ -51,10 +51,10 @@ export default function PuzzleSection() {
               style={{
                 left: `${400 * index + 30 * index + 200}px`,
                 top: '100%',
-                transform: 'translateY(-60%)'
+                transform: 'translateY(-10%)'
               }}
             >
-              <div className="relative w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center">
+              <div className="relative bg-white rounded-full shadow-lg flex items-center justify-center">
                 <Image
                   src={goal.image}
                   alt={goal.title}
@@ -65,7 +65,7 @@ export default function PuzzleSection() {
                 <div className="absolute inset-0 flex items-center justify-center" style={{
                   transform: `translateY(-20px) ${index === 2 ? 'translateX(20px)' : ''}`
                 }}>
-                  <span className="text-[20px] text-[#3e5ef4] font-bold text-center leading-tight underline">
+                  <span className="text-[16px] text-[#3e5ef4] font-bold text-center leading-tight underline">
                     READ<br />MORE
                   </span>
                 </div>

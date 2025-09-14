@@ -9,20 +9,16 @@ export default function AutoLoginNotification() {
   const [hasShownNotification, setHasShownNotification] = useState(false);
 
   useEffect(() => {
-    // 當載入完成、用戶登入且還沒有顯示過通知時
+    // 只在頁面首次載入且自動登入時顯示通知
     if (!isLoading && isLoggedIn && user && !hasShownNotification) {
-      // 檢查是否是自動登入（localStorage 中有 token 但之前沒有 user 狀態）
+      // 檢查是否是自動登入（localStorage 中有 token 且是頁面首次載入）
       const token = localStorage.getItem('fovy_token');
-      if (token) {
+      const hasShownBefore = sessionStorage.getItem('fovy_auto_login_shown');
+      
+      if (token && !hasShownBefore) {
         setShowNotification(true);
         setHasShownNotification(true);
-        
-        // 3秒後自動隱藏通知
-        const timer = setTimeout(() => {
-          setShowNotification(false);
-        }, 3000);
-
-        return () => clearTimeout(timer);
+        sessionStorage.setItem('fovy_auto_login_shown', 'true');
       }
     }
   }, [isLoading, isLoggedIn, user, hasShownNotification]);

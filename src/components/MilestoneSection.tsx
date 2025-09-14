@@ -22,17 +22,17 @@ const milestones = [
 
 export default function MilestoneSection() {
   return (
-    <section className="bg-gradient-to-b from-[#3D3D3E] to-[#E2E2EB] text-black py-24 px-6">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-[54px] font-bold text-[white] pt-[100px]" style={{margin: 0, paddingBottom: '100px'}}>Our Milestones</h2>
+    <section className="bg-gradient-to-b from-[#3D3D3E] to-[#E2E2EB] text-black py-12 px-6">
+      <div className="max-w-7xl mx-auto text-center">
+        <h2 className="text-[54px] font-bold text-[white] pt-12 pb-8">Our Milestones</h2>
 
-        <div className="flex justify-center gap-[25px] pb-[100px]">
+        <div className="flex justify-center gap-6 pb-12">
           {milestones.map((milestone, idx) => (
             <div
               key={idx}
               className="bg-[white] rounded-[30px] shadow-lg p-6 flex flex-col items-center w-[400px]"
             >
-              <h3 className="text-[30px] font-bold whitespace-pre-line text-center mb-4">
+              <h3 className="text-[32px] font-bold whitespace-pre-line text-center mb-4">
                 {milestone.title}
               </h3>
 
@@ -46,7 +46,7 @@ export default function MilestoneSection() {
                 />
               </div>
 
-              <p className="text-[20px] mx-[30px] leading-relaxed text-center">
+              <p className="text-[24px] mx-[30px] leading-relaxed text-center">
                 {milestone.description}
               </p>
             </div>

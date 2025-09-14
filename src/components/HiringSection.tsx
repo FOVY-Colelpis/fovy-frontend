@@ -7,7 +7,7 @@ export default function ComingSoonSection() {
     <section className="bg-[black] text-[white] min-h-screen flex flex-col items-center relative">
       {/* Content */}
       <div className="relative text-center z-10">
-        <h2 className="text-[48px] font-medium my-[100px]">
+        <h2 className="text-[32px] font-medium my-16">
           Smart Matching
         </h2>
       </div>
