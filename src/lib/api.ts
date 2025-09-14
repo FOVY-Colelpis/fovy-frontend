@@ -210,10 +210,84 @@ export const proposalAPI = {
   },
 };
 
+// SkillMap API
+export const skillmapAPI = {
+  // 上傳 PDF 文件
+  uploadPdf: async (file: File) => {
+    const formData = new FormData();
+    formData.append('pdf_file', file);
+    
+    const token = localStorage.getItem('fovy_token');
+    
+    console.log(`SkillMap API Call: Upload PDF`, {
+      token: token ? `${token.substring(0, 10)}...` : 'No token',
+      fileName: file.name,
+      fileSize: file.size
+    });
+    
+    const response = await fetch(`${API_BASE}/skillmap/upload-pdf/`, {
+      method: 'POST',
+      headers: {
+        ...(token && { 'Authorization': `Token ${token}` }),
+      },
+      body: formData,
+    });
+
+    console.log(`SkillMap API Response: ${response.status} ${response.statusText}`);
+
+    const data = await response.json();
+
+    if (!response.ok && (response.status === 400 || response.status === 401)) {
+      console.log('SkillMap API Error:', data);
+      return data;
+    }
+
+    if (!response.ok) {
+      console.log('SkillMap API Network Error:', response.status, data);
+      throw new Error(`API call failed: ${response.status}`);
+    }
+
+    return data;
+  },
+
+  // 獲取技能樹 JSON 數據
+  getSkillTree: async (skillmapId?: number) => {
+    const url = skillmapId ? `/skillmap/get-skill-tree/?id=${skillmapId}` : '/skillmap/get-skill-tree/';
+    return apiCall(url);
+  },
+
+  // 獲取技能樹狀態
+  getStatus: async (skillmapId?: number) => {
+    const url = skillmapId ? `/skillmap/status/?id=${skillmapId}` : '/skillmap/status/';
+    return apiCall(url);
+  },
+
+  // 獲取所有技能樹列表
+  listSkillmaps: async () => {
+    return apiCall('/skillmap/list/');
+  },
+
+  // 切換到指定的技能樹
+  switchSkillmap: async (skillmapId: number) => {
+    return apiCall('/skillmap/switch/', {
+      method: 'POST',
+      body: JSON.stringify({ skillmap_id: skillmapId }),
+    });
+  },
+
+  // 刪除技能樹
+  deleteSkillmap: async (skillmapId: number) => {
+    return apiCall(`/skillmap/delete/${skillmapId}/`, {
+      method: 'DELETE',
+    });
+  },
+};
+
 export default {
   auth: authAPI,
   user: userAPI,
   project: projectAPI,
   skill: skillAPI,
   proposal: proposalAPI,
+  skillmap: skillmapAPI,
 };
