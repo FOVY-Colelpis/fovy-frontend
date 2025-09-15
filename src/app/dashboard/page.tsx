@@ -1,20 +1,58 @@
 'use client'
-import { SetStateAction, useActionState, useState } from "react"
+import { SetStateAction, useActionState, useEffect, useState } from "react"
 import SkillTree from "./Component/SkillTree";
 import { motion, AnimatePresence } from "framer-motion";
 import UploadArea from "./Component/UploadUI";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/router";
+import { skillmapAPI } from "@/lib/api";
 
 
 interface SkillmapScore {
     name: string,
     value: number,
 }
-interface SkillMapData {
+interface SkillMapScoreList {
     allPercentage: SkillmapScore[];
 }
 
-export default function Dashboard() {
+interface SkillMapData {
+  skill_tree_json: string;
+  has_data: boolean;
+  skillmap_id: number | null;
+  name: string | null;
+}
 
+interface SkillMapStatus {
+  has_pdf: boolean;
+  is_processed: boolean;
+  has_skill_tree: boolean;
+  created_at: string | null;
+  updated_at: string | null;
+  name: string | null;
+  is_active: boolean;
+}
+
+interface SkillMapItem {
+  id: number;
+  name: string;
+  is_active: boolean;
+  has_pdf: boolean;
+  is_processed: boolean;
+  has_skill_tree: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export default function Dashboard() {
+    const router = useRouter();
+    const { isLoggedIn, user } = useAuth();
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [skillmaps, setSkillmaps] = useState<SkillMapItem[]>([]);
+    const [currentSkillmapId, setCurrentSkillmapId] = useState<number | null>(null);
+    const [skillMapData, setSkillMapData] = useState<SkillMapData | null>(null);
+    const [status, setStatus] = useState<SkillMapStatus | null>(null);
     const [allPercentage, setAllPercentage, isReading] = useActionState((prev: SkillmapScore[], data: SkillmapScore[]) => {
         return [{ name: "asd", value: 10 }, { name: "asd", value: 80 }, { name: "asd", value: 10 }]
     }, [{ name: "asd", value: 10 }, { name: "asd", value: 80 }, { name: "asd", value: 10 }])
@@ -22,6 +60,45 @@ export default function Dashboard() {
     const [name, setName, isSetNameComplete] = useActionState((prev: string, _name: string) => {
         return "aaa"
     }, "Undefined")
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+          router.push('/login');
+          return;
+        }
+        loadSkillMapData();
+      }, [isLoggedIn, router]);
+
+      const loadSkillMapData = async (skillmapId?: number) => {
+          try {
+            setIsLoading(true);
+            setError('');
+      
+            const [skillTreeResponse, statusResponse, skillmapsResponse] = await Promise.all([
+              skillmapAPI.getSkillTree(skillmapId),
+              skillmapAPI.getStatus(skillmapId),
+              skillmapAPI.listSkillmaps()
+            ]);
+      
+            if (skillTreeResponse.success) {
+              setSkillMapData(skillTreeResponse);
+              setCurrentSkillmapId(skillTreeResponse.skillmap_id);
+            }
+      
+            if (statusResponse.success) {
+              setStatus(statusResponse);
+            }
+      
+            if (skillmapsResponse.success) {
+              setSkillmaps(skillmapsResponse.skillmaps);
+            }
+          } catch (err) {
+            console.error('Failed to load skill map data:', err);
+            setError('Failed to load skill map data');
+          } finally {
+            setIsLoading(false);
+          }
+        };
 
     const [isShowSkillTree, setShowSkillTree] = useState<boolean>(false)
     const [grownPercent, setGrownPercent] = useState<number>(1)
@@ -81,7 +158,7 @@ export default function Dashboard() {
     )
 }
 
-function SkillMapOverview({ allPercentage }: SkillMapData) {
+function SkillMapOverview({ allPercentage }: SkillMapScoreList) {
     const total = allPercentage.reduce((sum, item) => sum + item.value, 0);
     const maxRadius = 80;
     const svgWidth = 500;
