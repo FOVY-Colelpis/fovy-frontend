@@ -27,7 +27,7 @@ export default function Dashboard() {
     }, "Undefined")
 
     const handleSkillMapClick = () => {
-        router.push('/skillmap');
+        setShowSkillTree(true);
     };
     const [isShowSkillTree, setShowSkillTree] = useState<boolean>(false)
     const [grownPercent, setGrownPercent] = useState<number>(1)
@@ -50,7 +50,11 @@ export default function Dashboard() {
                         onClick={() => alert("按鈕被點擊！")}>
                         <span className=" text-white text-[22px]">Growth</span>
                     </button>
-                </div>
+            </div>
+            {/* SkillTree Overlay */}
+            {isShowSkillTree && (
+                <PopSkillTreeWindow setShowSkillTree={setShowSkillTree} />
+            )}
             </div>
             <div className="flex-1 flex flex-col gap-4 p-2 mx-4">
                 <div className="h-[40vh] my-[5px] relative ">
@@ -182,9 +186,9 @@ export default function Dashboard() {
     });
 
                             return (
-                            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 h-full">
+                            <div className="fixed inset-x-0 top-[50px] bottom-0 z-50 bg-black/50">
                                 <motion.div
-                                    className="relative h-[90vh] w-[90%] bg-gray-900 shadow-2xl rounded-xl overflow-hidden flex flex-col"
+                                    className="absolute inset-0 bg-gray-900 shadow-2xl rounded-none overflow-hidden flex flex-col"
                                     initial={{ rotateY: -90, opacity: 0 }}
                                     animate={{ rotateY: 0, opacity: 1 }}
                                     exit={{ rotateY: 90, opacity: 0 }}
@@ -196,7 +200,7 @@ export default function Dashboard() {
                                         <button onClick={() => setShowSkillTree(false)}>X</button>
                                     </div>
 
-                                    <div className="flex-1 flex h-[80vh]">
+                                    <div className="flex-1 flex h-full">
                                         <div className="flex-1 bg-gray-500 overflow-hidden">
                                             <SkillTree data={data} />
                                         </div>
@@ -206,7 +210,7 @@ export default function Dashboard() {
                                         </div>
                                     </div>
 
-                                    <div className="w-full bg-gray-800 text-white p-4 flex justify-around items-center h-[10vh]">
+                                    <div className="w-full bg-gray-800 text-white p-4 flex justify-around items-center">
                                         <div className="w-[50%] flex flex-1 justify-center">
                                             <div className="bg-gray-600 rounded-full p-5 mx-5">
                                                 <button className="hover:scale-125 duration-150 ease-in-out" onClick={() => alert("comming soon!")}>
@@ -229,6 +233,16 @@ export default function Dashboard() {
                                         </div>
                                     </div>
                                 </motion.div>
+                                {/* Home button at bottom-right */}
+                                <button
+                                    onClick={() => setShowSkillTree(false)}
+                                    className="fixed bottom-4 right-4 bg-gray-600 rounded-full p-5 hover:bg-gray-500 transition-colors flex items-center justify-center"
+                                    title="返回 Dashboard"
+                                >
+                                    <svg className="size-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                    </svg>
+                                </button>
                             </div>
                             );
 }
