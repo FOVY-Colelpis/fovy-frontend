@@ -213,9 +213,10 @@ export const proposalAPI = {
 // SkillMap API
 export const skillmapAPI = {
   // 上傳 PDF 文件
-  uploadPdf: async (file: File) => {
+  uploadPdf: async (file: File, username?: string) => {
     const formData = new FormData();
     formData.append('pdf_file', file);
+    if (username) formData.append('username', username);
     
     const token = localStorage.getItem('fovy_token');
     
@@ -228,7 +229,8 @@ export const skillmapAPI = {
     const response = await fetch(`${API_BASE}/skillmap/upload-pdf/`, {
       method: 'POST',
       headers: {
-        ...(token && { 'Authorization': `Token ${token}` }),
+        // username 模式免 Token；保留向後相容
+        ...(username ? {} : (token ? { 'Authorization': `Token ${token}` } : {})),
       },
       body: formData,
     });
@@ -250,36 +252,38 @@ export const skillmapAPI = {
     return data;
   },
 
-  // 獲取技能樹 JSON 數據
-  getSkillTree: async (skillmapId?: number) => {
-    const url = skillmapId ? `/skillmap/get-skill-tree/?id=${skillmapId}` : '/skillmap/get-skill-tree/';
-    return apiCall(url);
+  // 獲取技能樹 JSON
+  getSkillTree: async (username: string) => {
+    return apiCall(`/skillmap/get-skill-tree/?username=${encodeURIComponent(username)}`);
   },
 
   // 獲取技能樹狀態
-  getStatus: async (skillmapId?: number) => {
-    const url = skillmapId ? `/skillmap/status/?id=${skillmapId}` : '/skillmap/status/';
-    return apiCall(url);
+  getStatus: async (username: string) => {
+    return apiCall(`/skillmap/status/?username=${encodeURIComponent(username)}`);
   },
 
-  // 獲取所有技能樹列表
-  listSkillmaps: async () => {
-    return apiCall('/skillmap/list/');
+  // 下載 / 檢視 PDF
+  downloadPdfByUsername: async (username: string) => {
+    const response = await fetch(`${API_BASE}/skillmap/download/?username=${encodeURIComponent(username)}`);
+    if (!response.ok) throw new Error('Failed to download PDF');
+    return response.blob();
   },
 
-  // 切換到指定的技能樹
-  switchSkillmap: async (skillmapId: number) => {
-    return apiCall('/skillmap/switch/', {
-      method: 'POST',
-      body: JSON.stringify({ skillmap_id: skillmapId }),
-    });
+  viewPdfByUsername: async (username: string) => {
+    const url = `${API_BASE}/skillmap/view/?username=${encodeURIComponent(username)}`;
+    window.open(url, '_blank');
   },
 
   // 刪除技能樹
-  deleteSkillmap: async (skillmapId: number) => {
-    return apiCall(`/skillmap/delete/${skillmapId}/`, {
+  deleteByUsername: async (username: string) => {
+    const response = await fetch(`${API_BASE}/skillmap/delete/?username=${encodeURIComponent(username)}`, {
       method: 'DELETE',
     });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.error || 'Failed to delete skillmap');
+    }
+    return data;
   },
 };
 
