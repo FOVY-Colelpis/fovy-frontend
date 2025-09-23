@@ -3,6 +3,7 @@
 import { SetStateAction, useActionState, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from '@/hooks/useAuth'
+import { useEffect } from 'react'
 import { skillmapAPI } from '@/lib/api'
 import SkillTree from "./Component/SkillTree";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,7 +20,7 @@ interface SkillMapData {
 
 export default function Dashboard() {
     const router = useRouter();
-    const { user } = useAuth();
+    const { user, isLoggedIn } = useAuth();
 
     const [allPercentage, setAllPercentage, isReading] = useActionState((prev: SkillmapScore[], data: SkillmapScore[]) => {
         return [{ name: "asd", value: 10 }, { name: "asd", value: 80 }, { name: "asd", value: 10 }]
@@ -34,6 +35,13 @@ export default function Dashboard() {
     };
     const [isShowSkillTree, setShowSkillTree] = useState<boolean>(false)
     const [grownPercent, setGrownPercent] = useState<number>(1)
+
+    // Auth guard: 若未登入，導回首頁
+    useEffect(() => {
+        if (!isLoggedIn) {
+            router.push('/');
+        }
+    }, [isLoggedIn, router]);
 
     return (
         <div className="pt-[50px] min-h-screen flex">

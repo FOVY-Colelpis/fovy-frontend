@@ -17,6 +17,8 @@ export default function Navigation() {
     if (confirmed) {
       await logout();
       setShowUserMenu(false);
+      // 登出後直接回首頁
+      router.push('/');
     }
   };
 
