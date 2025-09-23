@@ -1,6 +1,6 @@
 // API 基礎 URL
-const API_BASE = process.env.NODE_ENV === 'production' 
-  ? 'https://your-aws-backend-url.com/api' 
+const API_BASE = process.env.NODE_ENV === 'production'
+  ? 'https://fovy-backend.onrender.com/api'
   : 'http://localhost:8000/api';
 
 // 通用 API 調用函數
