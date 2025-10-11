@@ -262,7 +262,29 @@ export const skillmapAPI = {
 
   // 獲取技能樹 JSON
   getSkillTree: async (username: string) => {
-    return apiCall(`/skillmap/get-skill-tree/?username=${encodeURIComponent(username)}`);
+    const response = await apiCall(`/skillmap/get-skill-tree/?username=${encodeURIComponent(username)}`);
+    
+    // 清理 JSON 中的 markdown 標記（備用清理）
+    if (response?.skill_tree_json) {
+      let cleanedJson = response.skill_tree_json.trim();
+      if (cleanedJson.startsWith("```json")) {
+        cleanedJson = cleanedJson.substring(7);
+      }
+      if (cleanedJson.endsWith("```")) {
+        cleanedJson = cleanedJson.substring(0, cleanedJson.length - 3);
+      }
+      cleanedJson = cleanedJson.trim();
+      
+      try {
+        // 驗證 JSON 格式
+        JSON.parse(cleanedJson);
+        response.skill_tree_json = cleanedJson;
+      } catch (e) {
+        console.warn("JSON 清理後仍無法解析:", e);
+      }
+    }
+    
+    return response;
   },
 
   // 獲取技能樹狀態
