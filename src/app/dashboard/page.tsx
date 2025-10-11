@@ -177,6 +177,7 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
     const [showUpload, setShowUpload] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [lastUploadTime, setLastUploadTime] = useState<number>(0)
+    const [isPolling, setIsPolling] = useState<boolean>(false)
 
     const [data, setTreeData] = useState({
         nodes: [
@@ -201,7 +202,7 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
 
     // 從資料庫獲取技能樹資料
     const fetchSkillTree = async () => {
-        if (!user?.username) return;
+        if (!user?.username) return false; // 返回是否成功獲取資料
         
         setIsLoading(true);
         try {
@@ -210,30 +211,50 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
                 const treeData = JSON.parse(response.skill_tree_json);
                 setTreeData(treeData);
                 console.log('技能樹資料已更新:', treeData);
+                return true; // 成功獲取資料
             }
         } catch (error) {
             console.error('獲取技能樹失敗:', error);
         } finally {
             setIsLoading(false);
         }
+        return false; // 沒有獲取到資料
     };
 
     // 自動輪詢檢查技能樹更新
     useEffect(() => {
         if (lastUploadTime === 0) return; // 沒有上傳過就不輪詢
         
-        const interval = setInterval(async () => {
-            await fetchSkillTree();
-        }, 5000); // 每5秒檢查一次
+        let intervalId: NodeJS.Timeout;
+        let timeoutId: NodeJS.Timeout;
         
-        // 30秒後停止輪詢
-        const timeout = setTimeout(() => {
-            clearInterval(interval);
-        }, 30000);
+        const startPolling = async () => {
+            setIsPolling(true);
+            
+            intervalId = setInterval(async () => {
+                const success = await fetchSkillTree();
+                if (success) {
+                    // 成功獲取資料，停止輪詢
+                    clearInterval(intervalId);
+                    clearTimeout(timeoutId);
+                    setIsPolling(false);
+                    console.log('技能樹資料已獲取，停止輪詢');
+                }
+            }, 5000); // 每5秒檢查一次
+            
+            // 30秒後強制停止輪詢
+            timeoutId = setTimeout(() => {
+                clearInterval(intervalId);
+                setIsPolling(false);
+                console.log('輪詢超時，停止檢查');
+            }, 30000);
+        };
+        
+        startPolling();
         
         return () => {
-            clearInterval(interval);
-            clearTimeout(timeout);
+            if (intervalId) clearInterval(intervalId);
+            if (timeoutId) clearTimeout(timeoutId);
         };
     }, [lastUploadTime]);
 
@@ -253,8 +274,14 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
                 </div>
 
                 <div className="flex-1 flex h-full">
-                    <div className="flex-1 bg-gray-500 overflow-hidden">
+                    <div className="flex-1 bg-gray-500 overflow-hidden relative">
                         <SkillTree data={data} />
+                        {isPolling && (
+                            <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                                <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                正在處理中...
+                            </div>
+                        )}
                     </div>
 
                     <div className="w-2/12 bg-gray-200 p-4 flex items-center justify-center">
