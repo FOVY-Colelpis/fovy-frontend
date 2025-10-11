@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { skillmapAPI } from "@/lib/api";
+import { useAuth } from "@/hooks/useAuth";
 
 interface UploadAreaProps {
   show: boolean;
@@ -13,6 +14,9 @@ export default function UploadArea({ show, setShow }: UploadAreaProps) {
   const [dragging, setDragging] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+
+  const { user, isLoggedIn } = useAuth();
+
 
   const handleFiles = async (files: FileList | null) => {
     if (!files || files.length === 0) return;
@@ -30,7 +34,7 @@ export default function UploadArea({ show, setShow }: UploadAreaProps) {
 
     try {
       setIsUploading(true);
-      const res = await skillmapAPI.uploadPdf(file);
+      const res = await skillmapAPI.uploadPdf(file, user?.username);
       if (!res?.success) {
         alert(res?.error || 'Upload failed');
       } else {
