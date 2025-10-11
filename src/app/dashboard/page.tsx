@@ -274,6 +274,7 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
                 clearInterval(intervalId);
                 setIsPolling(false);
                 console.log('輪詢超時，停止檢查');
+                alert('Polling timeout, please try again.');
             }, 30000);
         };
         
