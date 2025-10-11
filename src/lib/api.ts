@@ -1,6 +1,6 @@
 // API 基礎 URL - 可透過環境變數控制
 const USE_LOCAL_BACKEND = process.env.NEXT_PUBLIC_USE_LOCAL_BACKEND === 'true';
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || (USE_LOCAL_BACKEND
+const API_BASE = (USE_LOCAL_BACKEND
   ? 'http://localhost:8000/api'
   : 'https://fovy-backend.onrender.com/api');
 
