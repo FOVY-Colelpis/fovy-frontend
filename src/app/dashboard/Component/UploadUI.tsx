@@ -7,9 +7,10 @@ import { useAuth } from "@/hooks/useAuth";
 interface UploadAreaProps {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  onUploadSuccess?: () => void;
 }
 
-export default function UploadArea({ show, setShow }: UploadAreaProps) {
+export default function UploadArea({ show, setShow, onUploadSuccess }: UploadAreaProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [dragging, setDragging] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -40,8 +41,10 @@ export default function UploadArea({ show, setShow }: UploadAreaProps) {
       } else {
         alert(`PDF uploaded successfully: ${res.file_name}. Processing will take a few minutes...`);
         setShow(false);
-        // 異步處理，不立即設置 treeData
-        // setTreeData 將在處理完成後通過其他方式更新
+        // 觸發自動刷新
+        if (onUploadSuccess) {
+          onUploadSuccess();
+        }
       }
     } catch (e) {
       console.error(e);

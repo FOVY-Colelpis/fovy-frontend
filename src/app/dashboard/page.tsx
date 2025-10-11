@@ -175,6 +175,8 @@ function Match() {
 function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Dispatch<SetStateAction<boolean>> }) {
     const { user } = useAuth();
     const [showUpload, setShowUpload] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [lastUploadTime, setLastUploadTime] = useState<number>(0)
 
     const [data, setTreeData] = useState({
         nodes: [
@@ -196,6 +198,44 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
             { source: "2.3", target: "2.3.1" },
         ],
     });
+
+    // 從資料庫獲取技能樹資料
+    const fetchSkillTree = async () => {
+        if (!user?.username) return;
+        
+        setIsLoading(true);
+        try {
+            const response = await skillmapAPI.getSkillTree(user.username);
+            if (response?.success && response.skill_tree_json) {
+                const treeData = JSON.parse(response.skill_tree_json);
+                setTreeData(treeData);
+                console.log('技能樹資料已更新:', treeData);
+            }
+        } catch (error) {
+            console.error('獲取技能樹失敗:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    // 自動輪詢檢查技能樹更新
+    useEffect(() => {
+        if (lastUploadTime === 0) return; // 沒有上傳過就不輪詢
+        
+        const interval = setInterval(async () => {
+            await fetchSkillTree();
+        }, 5000); // 每5秒檢查一次
+        
+        // 30秒後停止輪詢
+        const timeout = setTimeout(() => {
+            clearInterval(interval);
+        }, 30000);
+        
+        return () => {
+            clearInterval(interval);
+            clearTimeout(timeout);
+        };
+    }, [lastUploadTime]);
 
     return (
         <div className="fixed inset-x-0 top-[50px] bottom-0 z-50 bg-black/50">
@@ -243,14 +283,25 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
                             </button>
                         </div>
                         <div className="bg-gray-600 rounded-full p-5">
-                            {showUpload && <UploadArea show={showUpload} setShow={setShowUpload}></UploadArea>}
+                            {showUpload && <UploadArea show={showUpload} setShow={setShowUpload} onUploadSuccess={() => setLastUploadTime(Date.now())}></UploadArea>}
                             <button className="mx-5 hover:scale-125 duration-150 ease-in-out" onClick={() => setShowUpload((prev) => !prev)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                 </svg>
                             </button>
-                            <button className="mx-5 hover:scale-125 duration-150 ease-in-out">
-                                <img src="/images/fovy_logo.png" alt="icon" className="w-10 h-10" />
+                            <button 
+                                className="mx-5 hover:scale-125 duration-150 ease-in-out" 
+                                onClick={fetchSkillTree}
+                                disabled={isLoading}
+                                title="刷新技能樹"
+                            >
+                                {isLoading ? (
+                                    <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                    </svg>
+                                )}
                             </button>
                         </div>
                     </div>
