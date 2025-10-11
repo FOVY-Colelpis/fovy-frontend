@@ -1,7 +1,15 @@
-// API 基礎 URL
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || (process.env.NODE_ENV === 'production'
-  ? 'https://fovy-backend.onrender.com/api'
-  : 'http://localhost:8000/api');
+// API 基礎 URL - 可透過環境變數控制
+const USE_LOCAL_BACKEND = process.env.NEXT_PUBLIC_USE_LOCAL_BACKEND === 'true';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || (USE_LOCAL_BACKEND
+  ? 'http://localhost:8000/api'
+  : 'https://fovy-backend.onrender.com/api');
+
+// Debug: 顯示當前使用的 API 基礎 URL
+console.log('🔧 API Configuration:', {
+  USE_LOCAL_BACKEND,
+  API_BASE,
+  NODE_ENV: process.env.NODE_ENV
+});
 
 // 通用 API 調用函數
 async function apiCall(endpoint: string, options: RequestInit = {}) {
