@@ -176,7 +176,7 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
     const { user } = useAuth();
     const [showUpload, setShowUpload] = useState<boolean>(false)
 
-    const [data] = useState({
+    const [data, setTreeData] = useState({
         nodes: [
             { id: "1", name: "軟體工程基礎", level: 1, score: 5 },
             { id: "1.1", name: "程式語言基礎", level: 2, score: 4 },
@@ -243,7 +243,7 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
                             </button>
                         </div>
                         <div className="bg-gray-600 rounded-full p-5">
-                            {showUpload && <UploadArea show={showUpload} setShow={setShowUpload}></UploadArea>}
+                            {showUpload && <UploadArea show={showUpload} setShow={setShowUpload} setTreeData={setTreeData}></UploadArea>}
                             <button className="mx-5 hover:scale-125 duration-150 ease-in-out" onClick={() => setShowUpload((prev) => !prev)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />

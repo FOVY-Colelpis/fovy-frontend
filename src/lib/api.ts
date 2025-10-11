@@ -1,7 +1,7 @@
 // API 基礎 URL
-const API_BASE = process.env.NODE_ENV === 'production'
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || (process.env.NODE_ENV === 'production'
   ? 'https://fovy-backend.onrender.com/api'
-  : 'http://localhost:8000/api';
+  : 'http://localhost:8000/api');
 
 // 通用 API 調用函數
 async function apiCall(endpoint: string, options: RequestInit = {}) {

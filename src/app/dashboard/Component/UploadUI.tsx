@@ -7,9 +7,10 @@ import { useAuth } from "@/hooks/useAuth";
 interface UploadAreaProps {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  setTreeData: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export default function UploadArea({ show, setShow }: UploadAreaProps) {
+export default function UploadArea({ show, setShow, setTreeData }: UploadAreaProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [dragging, setDragging] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -40,6 +41,7 @@ export default function UploadArea({ show, setShow }: UploadAreaProps) {
       } else {
         alert(`PDF uploaded successfully: ${res.file_name}`);
         setShow(false);
+        setTreeData(JSON.parse(res.tree_data.replace("```json", "").replace("```", "")));
       }
     } catch (e) {
       console.error(e);
