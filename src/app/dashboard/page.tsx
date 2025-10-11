@@ -179,7 +179,8 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
     const [lastUploadTime, setLastUploadTime] = useState<number>(0)
     const [isPolling, setIsPolling] = useState<boolean>(false)
 
-    const [data, setTreeData] = useState({
+    // 默認假資料
+    const defaultData = {
         nodes: [
             { id: "1", name: "軟體工程基礎", level: 1, score: 5 },
             { id: "1.1", name: "程式語言基礎", level: 2, score: 4 },
@@ -198,7 +199,10 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
             { source: "2", target: "2.3" },
             { source: "2.3", target: "2.3.1" },
         ],
-    });
+    };
+
+    const [data, setTreeData] = useState(defaultData);
+    const [hasRealData, setHasRealData] = useState<boolean>(false);
 
     // 從資料庫獲取技能樹資料
     const fetchSkillTree = async () => {
@@ -210,20 +214,35 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
             if (response?.success && response.skill_tree_json) {
                 const treeData = JSON.parse(response.skill_tree_json);
                 setTreeData(treeData);
+                setHasRealData(true); // 標記為真實資料
                 console.log('技能樹資料已更新:', treeData);
                 return true; // 成功獲取資料
+            } else {
+                // 沒有資料，使用默認資料
+                setTreeData(defaultData);
+                setHasRealData(false);
             }
         } catch (error) {
             console.error('獲取技能樹失敗:', error);
+            // 錯誤時也使用默認資料
+            setTreeData(defaultData);
+            setHasRealData(false);
         } finally {
             setIsLoading(false);
         }
         return false; // 沒有獲取到資料
     };
 
+    // 組件載入時檢查資料庫
+    useEffect(() => {
+        if (user?.username) {
+            fetchSkillTree();
+        }
+    }, [user?.username]);
+
     // 自動輪詢檢查技能樹更新
     useEffect(() => {
-        if (lastUploadTime === 0) return; // 沒有上傳過就不輪詢
+        if (lastUploadTime === 0 || hasRealData) return; // 沒有上傳過或已有真實資料就不輪詢
         
         let intervalId: NodeJS.Timeout;
         let timeoutId: NodeJS.Timeout;
@@ -279,13 +298,23 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
                         {isPolling && (
                             <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
                                 <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                正在處理中...
+                                    Processing...
+                            </div>
+                        )}
+                        {!hasRealData && !isPolling && (
+                            <div className="absolute top-4 left-4 bg-yellow-600 text-white px-3 py-1 rounded-full text-sm">
+                                Displaying sample data
+                            </div>
+                        )}
+                        {hasRealData && (
+                            <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm">
+                                Personal skill tree
                             </div>
                         )}
                     </div>
 
                     <div className="w-2/12 bg-gray-200 p-4 flex items-center justify-center">
-                        控制面板內容
+                        Control panel content
                     </div>
                 </div>
 
@@ -295,11 +324,14 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
                             <button className="hover:scale-125 duration-150 ease-in-out" onClick={async () => {
                                 const uname = user?.username;
                                 if (!uname) { alert('No username'); return; }
-                                const ok = window.confirm('確定要刪除目前技能樹嗎？');
+                                const ok = window.confirm('Are you sure you want to delete the current skill tree?');
                                 if (!ok) return;
                                 try {
                                     const res = await skillmapAPI.deleteByUsername(uname);
-                                    alert(res?.message || 'Deleted');
+                                    // 刪除成功後恢復默認資料
+                                    setTreeData(defaultData);
+                                    setHasRealData(false);
+                                    alert(res?.message || 'Deleted successfully');
                                 } catch (e: any) {
                                     alert(e?.message || 'Delete failed');
                                 }
@@ -310,7 +342,10 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
                             </button>
                         </div>
                         <div className="bg-gray-600 rounded-full p-5">
-                            {showUpload && <UploadArea show={showUpload} setShow={setShowUpload} onUploadSuccess={() => setLastUploadTime(Date.now())}></UploadArea>}
+                            {showUpload && <UploadArea show={showUpload} setShow={setShowUpload} onUploadSuccess={() => {
+                                setLastUploadTime(Date.now());
+                                setHasRealData(false); // 重置為沒有真實資料，開始輪詢
+                            }}></UploadArea>}
                             <button className="mx-5 hover:scale-125 duration-150 ease-in-out" onClick={() => setShowUpload((prev) => !prev)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -320,7 +355,7 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
                                 className="mx-5 hover:scale-125 duration-150 ease-in-out" 
                                 onClick={fetchSkillTree}
                                 disabled={isLoading}
-                                title="刷新技能樹"
+                                title="Refresh skill tree"
                             >
                                 {isLoading ? (
                                     <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />
@@ -338,7 +373,7 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
             <button
                 onClick={() => setShowSkillTree(false)}
                 className="fixed bottom-4 right-4 bg-gray-600 rounded-full p-5 hover:bg-gray-500 transition-colors flex items-center justify-center"
-                title="返回 Dashboard"
+                title="Return Dashboard"
             >
                 <svg className="size-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
