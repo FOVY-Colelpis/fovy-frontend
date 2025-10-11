@@ -212,6 +212,14 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
         try {
             const response = await skillmapAPI.getSkillTree(user.username);
             if (response?.success && response.skill_tree_json) {
+                // 檢查是否為 "Failed" 字串
+                if (response.skill_tree_json === "Failed") {
+                    alert('Failed to generate skill tree, please try again.');
+                    setTreeData(defaultData);
+                    setHasRealData(false);
+                    return false;
+                }
+                
                 const treeData = JSON.parse(response.skill_tree_json);
                 setTreeData(treeData);
                 setHasRealData(true); // 標記為真實資料
