@@ -107,8 +107,6 @@ function SkillTree3D({ data }: any) {
 }
 
 export default function SkillTree({data}:any) {
-  
-
   // 這裡完全不要寫 CSS，交由外面容器控制
   return <SkillTree3D data={data} />;
 }
