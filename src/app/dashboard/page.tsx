@@ -41,11 +41,11 @@ export default function Dashboard() {
 
 
     // Auth guard: 若未登入，導回首頁
-    // useEffect(() => {
-    //     if (!isLoggedIn) {
-    //         router.push('/');
-    //     }
-    // }, [isLoggedIn, router]);
+    useEffect(() => {
+        if (!isLoggedIn) {
+            router.push('/');
+        }
+    }, [isLoggedIn, router]);
 
 
     return (
