@@ -315,6 +315,91 @@ export const skillmapAPI = {
     }
     return data;
   },
+
+};
+
+// GrowthTree API (完全独立于 SkillMap)
+export const growthTreeAPI = {
+  // 上傳 PDF 文件
+  uploadPdf: async (file: File, username?: string) => {
+    const formData = new FormData();
+    formData.append('pdf_file', file);
+    if (username) formData.append('username', username);
+    
+    const response = await fetch(`${API_BASE}/growth/upload-pdf/`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.error || 'Failed to upload PDF');
+    }
+    return data;
+  },
+
+  // 獲取成長樹 JSON（包括推薦技能）
+  getSkillTree: async (username: string) => {
+    const response = await apiCall(`/growth/get-skill-tree/?username=${encodeURIComponent(username)}`);
+    
+    // 清理 JSON 中的 markdown 標記（備用清理）
+    if (response?.skill_tree_json) {
+      let cleanedJson = response.skill_tree_json.trim();
+      if (cleanedJson.startsWith("```json")) {
+        cleanedJson = cleanedJson.substring(7);
+      }
+      if (cleanedJson.endsWith("```")) {
+        cleanedJson = cleanedJson.substring(0, cleanedJson.length - 3);
+      }
+      cleanedJson = cleanedJson.trim();
+      
+      try {
+        // 驗證 JSON 格式
+        JSON.parse(cleanedJson);
+        response.skill_tree_json = cleanedJson;
+      } catch (e) {
+        console.warn("JSON 清理後仍無法解析:", e);
+      }
+    }
+    
+    return response;
+  },
+
+  // 保存成長樹數據（包括推薦技能）
+  saveSkillTree: async (username: string, skillTreeJson: any) => {
+    const response = await fetch(`${API_BASE}/growth/save/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        skill_tree_json: skillTreeJson,
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.error || 'Failed to save growth tree');
+    }
+    return data;
+  },
+
+  // 獲取成長樹狀態
+  getStatus: async (username: string) => {
+    return apiCall(`/growth/status/?username=${encodeURIComponent(username)}`);
+  },
+
+  // 刪除成長樹
+  deleteByUsername: async (username: string) => {
+    const response = await fetch(`${API_BASE}/growth/delete/?username=${encodeURIComponent(username)}`, {
+      method: 'DELETE',
+    });
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data?.error || 'Failed to delete growth tree');
+    }
+    return data;
+  },
 };
 
 export default {
@@ -324,4 +409,5 @@ export default {
   skill: skillAPI,
   proposal: proposalAPI,
   skillmap: skillmapAPI,
+  growthTree: growthTreeAPI,
 };

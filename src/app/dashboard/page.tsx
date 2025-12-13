@@ -4,7 +4,7 @@ import { SetStateAction, useActionState, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from '@/hooks/useAuth'
 import { useEffect } from 'react'
-import { skillmapAPI } from '@/lib/api'
+import { skillmapAPI, growthTreeAPI } from '@/lib/api'
 import SkillTree from "./Component/SkillTree";
 import GrowthTree from "./Component/GrowthTree";
 import { motion, AnimatePresence } from "framer-motion";
@@ -236,13 +236,13 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
     const [data, setTreeData] = useState(defaultData);
     const [hasRealData, setHasRealData] = useState<boolean>(false);
 
-    // 從資料庫獲取技能樹資料
+    // 從資料庫獲取成長樹資料
     const fetchSkillTree = async () => {
         if (!user?.username) return false; // 返回是否成功獲取資料
 
         setIsLoading(true);
         try {
-            const response = await skillmapAPI.getSkillTree(user.username);
+            const response = await growthTreeAPI.getSkillTree(user.username);
             if (response?.success && response.skill_tree_json) {
                 // 檢查是否為 "Failed" 字串
                 if (response.skill_tree_json === "Failed") {
@@ -409,10 +409,10 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                             <button className="hover:scale-125 duration-150 ease-in-out" onClick={async () => {
                                 const uname = user?.username;
                                 if (!uname) { alert('No username'); return; }
-                                const ok = window.confirm('Are you sure you want to delete the current skill tree?');
+                                const ok = window.confirm('Are you sure you want to delete the current growth tree?');
                                 if (!ok) return;
                                 try {
-                                    const res = await skillmapAPI.deleteByUsername(uname);
+                                    const res = await growthTreeAPI.deleteByUsername(uname);
                                     // 刪除成功後恢復默認資料
                                     setTreeData(defaultData);
                                     setHasRealData(false);
@@ -427,10 +427,14 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                             </button>
                         </div>
                         <div className="bg-gray-600 rounded-full p-5">
-                            {showUpload && <UploadArea show={showUpload} setShow={setShowUpload} onUploadSuccess={() => {
-                                setLastUploadTime(Date.now());
-                                setHasRealData(false); // 重置為沒有真實資料，開始輪詢
-                            }}></UploadArea>}
+                            {showUpload && <UploadArea 
+                                show={showUpload} 
+                                setShow={setShowUpload} 
+                                uploadAPI={growthTreeAPI.uploadPdf}
+                                onUploadSuccess={() => {
+                                    setLastUploadTime(Date.now());
+                                    setHasRealData(false); // 重置為沒有真實資料，開始輪詢
+                                }}></UploadArea>}
                             <button className="mx-5 hover:scale-125 duration-150 ease-in-out" onClick={() => setShowUpload((prev) => !prev)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-10">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -440,7 +444,7 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                                 className="mx-5 hover:scale-125 duration-150 ease-in-out"
                                 onClick={fetchSkillTree}
                                 disabled={isLoading}
-                                title="Refresh skill tree"
+                                title="Refresh growth tree"
                             >
                                 {isLoading ? (
                                     <div className="w-10 h-10 border-4 border-white border-t-transparent rounded-full animate-spin" />

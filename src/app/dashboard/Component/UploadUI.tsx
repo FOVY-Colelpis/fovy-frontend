@@ -8,9 +8,10 @@ interface UploadAreaProps {
   show: boolean;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   onUploadSuccess?: () => void;
+  uploadAPI?: (file: File, username?: string) => Promise<any>; // 可选的 API 函数
 }
 
-export default function UploadArea({ show, setShow, onUploadSuccess }: UploadAreaProps) {
+export default function UploadArea({ show, setShow, onUploadSuccess, uploadAPI }: UploadAreaProps) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [dragging, setDragging] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
@@ -35,7 +36,8 @@ export default function UploadArea({ show, setShow, onUploadSuccess }: UploadAre
 
     try {
       setIsUploading(true);
-      const res = await skillmapAPI.uploadPdf(file, user?.username);
+      const apiFunction = uploadAPI || skillmapAPI.uploadPdf; // 使用传入的 API 或默认的 skillmapAPI
+      const res = await apiFunction(file, user?.username);
       if (!res?.success) {
         alert(res?.error || 'Upload failed');
       } else {
