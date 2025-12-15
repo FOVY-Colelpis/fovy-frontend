@@ -190,7 +190,7 @@ function WeeklyAdvantage() {
 function Growth() {
     return (
         <div className=" text-gray-500 text-3xl">
-            Ooopps!This feature isn`t open yet.
+           
         </div>
     )
 }
@@ -234,6 +234,7 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
     };
 
     const [data, setTreeData] = useState(defaultData);
+    const [growthData,setGrowthData]=useState(defaultData)
     const [hasRealData, setHasRealData] = useState<boolean>(false);
 
     // 從資料庫獲取成長樹資料
@@ -248,12 +249,15 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                 if (response.skill_tree_json === "Failed") {
                     alert('Failed to generate skill tree, please try again.');
                     setTreeData(defaultData);
+                    setGrowthData(defaultData)
                     setHasRealData(false);
                     return false;
                 }
 
                 const treeData = JSON.parse(response.skill_tree_json);
+                // const growthData=JSON.parse(response.)
                 setTreeData(treeData);
+                setGrowthData(treeData)
                 setHasRealData(true); // 標記為真實資料
                 console.log('技能樹資料已更新:', treeData);
                 return true; // 成功獲取資料
