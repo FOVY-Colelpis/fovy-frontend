@@ -7,7 +7,10 @@ const ForceGraph2D: any = dynamic(() => import("react-force-graph-2d"), {
 });
 
 function getColorByLevel(level: number) {
-  return level === 1 ? "#007BFF" : level === 2 ? "#28A745" : level === 3 ? "#FFC107" : "#66ccff";
+  return level === 0 ? "#FF1493" : // 中心節點 "me" 使用粉紅色
+         level === 1 ? "#007BFF" : 
+         level === 2 ? "#28A745" : 
+         level === 3 ? "#FFC107" : "#66ccff";
 }
 
 interface SkillTree2DProps {
@@ -127,7 +130,8 @@ function SkillTree2D({ data, onNodeSelect }: SkillTree2DProps) {
             if (typeof x !== 'number' || typeof y !== 'number') return;
 
             const score = typeof node.score === 'number' ? node.score : 1;
-            const radius = 5 + score * 2;
+            const isCenterNode = node.id === "me" || node.level === 0;
+            const radius = isCenterNode ? 20 : (5 + score * 2); // 中心節點更大
 
             const isSelected = node.id === selectedNodeId;
             const isHighlighted = highlightNodes.has(node.id);

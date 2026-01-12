@@ -40,12 +40,12 @@ export default function Dashboard() {
     const [grownPercent, setGrownPercent] = useState<number>(1)
 
 
-    // Auth guard: 若未登入，導回首頁
-    useEffect(() => {
-        if (!isLoggedIn) {
-            router.push('/');
-        }
-    }, [isLoggedIn, router]);
+    // Auth guard: 若未登入，導回首頁 (已暫時關閉)
+    // useEffect(() => {
+    //     if (!isLoggedIn) {
+    //         router.push('/');
+    //     }
+    // }, [isLoggedIn, router]);
 
 
     return (
@@ -203,6 +203,41 @@ function Match() {
     )
 }
 
+// 添加中心節點 "me" 的輔助函數
+function addCenterNode(treeData: any) {
+    if (!treeData || !treeData.nodes || !treeData.links) {
+        return treeData;
+    }
+
+    // 檢查是否已經有中心節點
+    const hasCenterNode = treeData.nodes.some((node: any) => node.id === "me");
+    if (hasCenterNode) {
+        return treeData; // 已經有中心節點，直接返回
+    }
+
+    // 找出所有根節點（level 1 的節點）
+    const rootNodes = treeData.nodes.filter((node: any) => node.level === 1);
+
+    // 創建新的節點數組，包含中心節點
+    const newNodes = [
+        { id: "me", name: "Me", level: 0, score: 5 },
+        ...treeData.nodes
+    ];
+
+    // 創建新的連接數組，將所有根節點連接到中心節點
+    const centerLinks = rootNodes.map((node: any) => ({
+        source: "me",
+        target: node.id
+    }));
+
+    const newLinks = [...centerLinks, ...treeData.links];
+
+    return {
+        nodes: newNodes,
+        links: newLinks
+    };
+}
+
 function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetStateAction<boolean>> }) {
     const { user } = useAuth();
     const [showUpload, setShowUpload] = useState<boolean>(false)
@@ -214,6 +249,7 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
     // 默認假資料
     const defaultData = {
         nodes: [
+            { id: "me", name: "Me", level: 0, score: 5 }, // 中心節點
             { id: "1", name: "軟體工程基礎", level: 1, score: 5 },
             { id: "1.1", name: "程式語言基礎", level: 2, score: 4 },
             { id: "1.1.1", name: "Python", level: 3, score: 5 },
@@ -224,6 +260,8 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
             { id: "2.3.1", name: "WebSocket", level: 3, score: 4 },
         ],
         links: [
+            { source: "me", target: "1" }, // 中心節點連接到根節點
+            { source: "me", target: "2" }, // 中心節點連接到根節點
             { source: "1", target: "1.1" },
             { source: "1.1", target: "1.1.1" },
             { source: "1.1", target: "1.1.2" },
@@ -255,11 +293,14 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                 }
 
                 const treeData = JSON.parse(response.skill_tree_json);
-                // const growthData=JSON.parse(response.)
-                setTreeData(treeData);
-                setGrowthData(treeData)
+                
+                // 添加中心節點 "me" 並連接所有根節點
+                const processedData = addCenterNode(treeData);
+                
+                setTreeData(processedData);
+                setGrowthData(processedData)
                 setHasRealData(true); // 標記為真實資料
-                console.log('技能樹資料已更新:', treeData);
+                console.log('技能樹資料已更新:', processedData);
                 return true; // 成功獲取資料
             } else {
                 // 沒有資料，使用默認資料
