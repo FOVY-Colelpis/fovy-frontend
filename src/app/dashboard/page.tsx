@@ -245,7 +245,7 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
     const [lastUploadTime, setLastUploadTime] = useState<number>(0)
     const [isPolling, setIsPolling] = useState<boolean>(false)
     const [selectedNode, setSelectedNode] = useState<any>(null);
-    const [skillDetails, setShowSkillTree] = useState<Record<string, string>>({ 'Angular (2+)': './images/0113demo.svg', 'Drag and Drop API':'./images/0113demo_2.svg','SASS/LESS':'./images/0113demo_1.svg'});
+    const [skillDetails, setShowSkillTree] = useState<Record<string, string>>({ 'Angular (2+)': './images/0113demo.svg', 'Drag and Drop API':'./images/0113demo_1.svg','SASS/LESS':'./images/0113demo_2.svg'});
     // 默認假資料
 
 
@@ -260,16 +260,24 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
             { id: "2", name: "後端開發", level: 1, score: 4 },
             { id: "2.3", name: "網路與通訊", level: 2, score: 4 },
             { id: "2.3.1", name: "WebSocket", level: 3, score: 4 },
+            { id: "3", name: "前端開發", level: 1, score: 4 },
+            { id: "3.1", name: "Drag and Drop API", level: 2, score: 4 },
+            { id: "3.2", name: "SASS/LESS", level: 2, score: 4 },
+            { id: "3.3", name: "Angular (2+)", level: 2, score: 4 },
         ],
         links: [
             { source: "me", target: "1" }, // 中心節點連接到根節點
             { source: "me", target: "2" }, // 中心節點連接到根節點
+            { source: "me", target: "3" }, // 中心節點連接到根節點
             { source: "1", target: "1.1" },
             { source: "1.1", target: "1.1.1" },
             { source: "1.1", target: "1.1.2" },
             { source: "1.1", target: "1.1.3" },
             { source: "2", target: "2.3" },
             { source: "2.3", target: "2.3.1" },
+            { source: "3", target: "3.1" },
+            { source: "3", target: "3.2" },
+            { source: "3", target: "3.3" },
         ],
     };
 
@@ -565,6 +573,10 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
             { id: "2", name: "後端開發", level: 1, score: 4 },
             { id: "2.3", name: "網路與通訊", level: 2, score: 4 },
             { id: "2.3.1", name: "WebSocket", level: 3, score: 4 },
+            { id: "3", name: "前端開發", level: 1, score: 4 },
+            { id: "3.1", name: "Drag and Drop API", level: 2, score: 4 },
+            { id: "3.2", name: "SASS/LESS", level: 2, score: 4 },
+            { id: "3.3", name: "Angular (2+)", level: 2, score: 4 },
         ],
         links: [
             { source: "1", target: "1.1" },
@@ -573,6 +585,9 @@ function PopSkillTreeWindow({ setShowSkillTree }: { setShowSkillTree: React.Disp
             { source: "1.1", target: "1.1.3" },
             { source: "2", target: "2.3" },
             { source: "2.3", target: "2.3.1" },
+            { source: "3", target: "3.1" },
+            { source: "3", target: "3.2" },
+            { source: "3", target: "3.3" },
         ],
     };
 
