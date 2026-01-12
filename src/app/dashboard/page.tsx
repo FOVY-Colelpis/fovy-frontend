@@ -383,7 +383,7 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                 style={{ transformOrigin: "left center" }}
             >
                 <div className="absolute top-3 right-3 p-2 rounded-full hover:scale-125 ease-in-out duration-200 transition z-50">{/* Close button */}
-                    <button onClick={() => setShowGrowth(false)}>XXXX</button>
+                    <button onClick={() => setShowGrowth(false)}>X</button>
                 </div>
 
                 <div className="flex-1 flex h-full">{/* Main content area */}
@@ -456,8 +456,11 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                                     exit={{ opacity: 0, x: 20 }}
                                     style={{
                                         backgroundImage: `url(${skillDetails[selectedNode.name]})`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                        backgroundRepeat: 'no-repeat'
                                     }}
-                                    className={` bg-cover bg-center bg-no-repeat h-[50vh] absolute top-20 right-5 w-80 bg-white rounded-xl shadow-2xl p-6 z-10 border border-gray-200`}
+                                    className={`h-[50vh] absolute top-20 right-5 w-80 bg-white rounded-xl shadow-2xl p-6 z-10 border border-gray-200`}
                                 >
                                     {/* <div className=" w-[100%] h-full " style={{ backgroundImage: "url('./images/0113demo.svg')",backgroun }}> */}
 
@@ -479,8 +482,16 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                         </AnimatePresence>
                     </div>
 
-                    <div className="w-2/12 bg-gray-200 p-4 flex items-center justify-center">{/* Control panel area */}
-                        Control panel content
+                    <div 
+                        style={{
+                            backgroundImage: "url('./images/sideBar.svg')",
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat'
+                        }}
+                        className="w-2/12 bg-gray-200 p-4 flex items-center justify-center"
+                    >{/* Control panel area */}
+                        
                     </div>
                 </div>
 
