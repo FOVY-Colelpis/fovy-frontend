@@ -1,6 +1,6 @@
 // page.tsx
 'use client'
-import { SetStateAction, useActionState, useState } from "react"
+import { SetStateAction, use, useActionState, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useAuth } from '@/hooks/useAuth'
 import { useEffect } from 'react'
@@ -190,7 +190,7 @@ function WeeklyAdvantage() {
 function Growth() {
     return (
         <div className=" text-gray-500 text-3xl">
-           
+
         </div>
     )
 }
@@ -245,8 +245,10 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
     const [lastUploadTime, setLastUploadTime] = useState<number>(0)
     const [isPolling, setIsPolling] = useState<boolean>(false)
     const [selectedNode, setSelectedNode] = useState<any>(null);
-
+    const [skillDetails, setShowSkillTree] = useState<Record<string, string>>({ 'Angular (2+)': './images/0113demo.svg', 'Drag and Drop API':'./images/0113demo_2.svg','SASS/LESS':'./images/0113demo_1.svg'});
     // 默認假資料
+
+
     const defaultData = {
         nodes: [
             { id: "me", name: "Me", level: 0, score: 5 }, // 中心節點
@@ -272,7 +274,7 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
     };
 
     const [data, setTreeData] = useState(defaultData);
-    const [growthData,setGrowthData]=useState(defaultData)
+    const [growthData, setGrowthData] = useState(defaultData)
     const [hasRealData, setHasRealData] = useState<boolean>(false);
 
     // 從資料庫獲取成長樹資料
@@ -293,10 +295,10 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                 }
 
                 const treeData = JSON.parse(response.skill_tree_json);
-                
+
                 // 添加中心節點 "me" 並連接所有根節點
                 const processedData = addCenterNode(treeData);
-                
+
                 setTreeData(processedData);
                 setGrowthData(processedData)
                 setHasRealData(true); // 標記為真實資料
@@ -378,9 +380,9 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
 
                 <div className="flex-1 flex h-full">{/* Main content area */}
                     <div className="flex-1 bg-gray-500 overflow-hidden relative">{/* Skill tree area */}
-                        <GrowthTree 
-                            data={data} 
-                            onNodeSelect={(node) => setSelectedNode(node)} 
+                        <GrowthTree
+                            data={data}
+                            onNodeSelect={(node) => setSelectedNode(node)}
                         />
                         {isPolling && (
                             <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm flex items-center gap-2">
@@ -399,7 +401,7 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                             </div>
                         )}
                         <AnimatePresence>
-                            {selectedNode && (
+                            {/* {selectedNode && (
                                 <motion.div
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
@@ -429,7 +431,6 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                                         </div>
                                         
                                         <p className="text-gray-600 text-sm leading-relaxed">
-                                            {/* 這裡之後可以放針對這個 Node 的詳細說明 */}
                                             這是一個關於 <strong>{selectedNode.name}</strong> 的詳細說明區域。
                                             您可以在這裡顯示學習進度、相關課程或是該技能的詳細描述。
                                         </p>
@@ -438,6 +439,33 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                                             View Details
                                         </button>
                                     </div>
+                                </motion.div>
+                            )} */}
+                            {selectedNode && (
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 20 }}
+                                    style={{
+                                        backgroundImage: `url(${skillDetails[selectedNode.name]})`,
+                                    }}
+                                    className={` bg-cover bg-center bg-no-repeat h-[50vh] absolute top-20 right-5 w-80 bg-white rounded-xl shadow-2xl p-6 z-10 border border-gray-200`}
+                                >
+                                    {/* <div className=" w-[100%] h-full " style={{ backgroundImage: "url('./images/0113demo.svg')",backgroun }}> */}
+
+                                    <div className="flex justify-between items-start mb-4">
+                                        {/* <h2 className="text-2xl font-bold text-gray-800">
+                                                {selectedNode.name}
+                                            </h2> */}
+                                        <button
+                                            onClick={() => setSelectedNode(null)}
+                                            className="text-gray-400 hover:text-gray-600"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+
+                                    {/* </div> */}
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -472,9 +500,9 @@ function PopGrowthWindow({ setShowGrowth }: { setShowGrowth: React.Dispatch<SetS
                             </button>
                         </div>
                         <div className="bg-gray-600 rounded-full p-5">
-                            {showUpload && <UploadArea 
-                                show={showUpload} 
-                                setShow={setShowUpload} 
+                            {showUpload && <UploadArea
+                                show={showUpload}
+                                setShow={setShowUpload}
                                 uploadAPI={growthTreeAPI.uploadPdf}
                                 onUploadSuccess={() => {
                                     setLastUploadTime(Date.now());
